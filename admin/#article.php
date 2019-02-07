@@ -74,28 +74,14 @@
 
 </head>
 <body>
-
-	<div class="fh5co-loader"></div>
-
+		<div class="fh5co-loader"></div>
 	<div id="page">
 		<nav class="fh5co-nav" role="navigation">
 			<div class="top">
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-12 text-right">
-							<p class="site">Welcome
-                                <?php
-// session_start();
-
-$loginID = '1';
-// // $loginID = $_SESSION['loginID'];
-// $student = new User;
-// $row = $student->echo_sutdent();
-// echo 'dd';
-// echo $row['studentName'];
-
-?>
-</p>
+							<p class="site">www.yourdomainname.com</p>
 							<!-- <p class="num">Call: +01 123 456 7890</p> -->
 							<ul class="fh5co-social">
 								<li><a href="#"><i class="icon-facebook2"></i></a></li>
@@ -137,71 +123,16 @@ $loginID = '1';
 				</div>
 			</div>
 		</nav>
-		<aside id="fh5co-hero">
-			<div class="flexslider">
-				<ul class="slides">
-					<li style="background-image: url(../common/images/img_bg_1.jpg);">
-						<!-- <div class="overlay-gradient"></div> -->
-						<div class="container">
-							<div class="row">
-								<div class="col-md-8 col-md-offset-2 text-center slider-text">
-									<div class="slider-text-inner">
-										<h1>The Roots of Education are Bitter, But the Fruit is Sweet</h1>
-										<!-- <h2>Brought to you by <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a></h2> -->
-										<p><a class="btn btn-primary btn-lg" href="#">Start Learning Now!</a></p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</li>
-					<!-- <li style="background-image: url(../common/images/img_bg_2.jpg);">
-						<div class="overlay-gradient"></div>
-						<div class="container">
-							<div class="row">
-								<div class="col-md-8 col-md-offset-2 text-center slider-text">
-									<div class="slider-text-inner">
-										<h1>The Great Aim of Education is not Knowledge, But Action</h1>
-										<h2>Brought to you by <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a></h2>
-										<p><a class="btn btn-primary btn-lg btn-learn" href="#">Start Learning Now!</a></p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</li> -->
-				</ul>
-			</div>
-		</aside>
+	</div>
 
 	<div id="fh5co-blog">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-4 col-md-4">
+				<div class="col-lg-12 col-md-12">
 					<div class="fh5co-blog animate-box">
-						<a href="article.php" class="blog-img-holder" style="background-image: url(../common/images/project-1.jpg);"></a>
+						<a href="#" class="blog-img-holder" style="background-image: url(../common/images/project-1.jpg);"></a>
 						<div class="blog-text">
-							<h3><a href="article.php">Healty Lifestyle &amp; Living</a></h3>
-							<span class="posted_on">March. 15th</span>
-							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-4">
-					<div class="fh5co-blog animate-box">
-						<a href="article.php" class="blog-img-holder" style="background-image: url(../common/images/project-2.jpg);"></a>
-						<div class="blog-text">
-							<h3><a href="article.php">Healty Lifestyle &amp; Living</a></h3>
-							<span class="posted_on">March. 15th</span>
-							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-4">
-					<div class="fh5co-blog animate-box">
-						<a href="article.php" class="blog-img-holder" style="background-image: url(../common/images/project-3.jpg);"></a>
-						<div class="blog-text">
-							<h3><a href="article.php">Healty Lifestyle &amp; Living</a></h3>
+							<h3><a href="#">Healty Lifestyle &amp; Living</a></h3>
 							<span class="posted_on">March. 15th</span>
 							<span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
 							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
@@ -209,9 +140,10 @@ $loginID = '1';
 					</div>
 				</div>
 			</div>
+					<a href="course.php" class="btn btn-primary btn-lg btn-reg">Back to course</a>
+
 		</div>
 	</div>
-
 <footer>
 			<div class="container">
 				<div class="row copyright">
@@ -221,8 +153,8 @@ $loginID = '1';
 						</p>
 					</div>
 				</div>
+				</div>
 		</footer>
-	</div>
 
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
@@ -250,7 +182,7 @@ $loginID = '1';
 	<!-- Count Down -->
 	<!-- <script src="../common/js/simplyCountdown.js"></script> -->
 	<!-- Main -->
-	<script src="../common/js/main.js"></script>
+	<!-- <script src="../common/js/main.js"></script> -->
 </body>
 
 </html>

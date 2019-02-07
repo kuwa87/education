@@ -1,8 +1,9 @@
 <?php
+include 'common/head.php';
 include_once 'classes/User.php';
+
 // $users = new User;
 // $users->logged_in();
-include 'common/head.html';
 ?>
 <!DOCTYPE html>
 <html lang="en">

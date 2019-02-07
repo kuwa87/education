@@ -7,8 +7,10 @@
 						</p>
 					</div>
 				</div>
+				</div>
 		</footer>
 	</div>
+		</div>
 
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>

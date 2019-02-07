@@ -80,7 +80,6 @@ include_once 'classes/User.php';
 				</form>
 				<?php
 if (isset($_POST['submit'])) {
-    // session_start();
     $name = $_POST['name'];
     $adress = $_POST['adress'];
     $birthdate = $_POST['birthdate'];

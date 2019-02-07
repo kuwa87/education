@@ -14,28 +14,15 @@ class User extends Config
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $_SESSION['loginID'] = $row['loginID'];
+            $_SESSION['loginID'] = $row['loginID'];
 
-            if ($result->num_rows > 0) {
-                if ($row['status'] == 'a') {
-                    $this->redirect_js("admin/index.php");
-                } else {
-                    $this->redirect_js("user/index.php");
-                }
-                // header("Location: user/index.php");
-            } else {
-                echo 'Username and Password error.';
+            if ($row['status'] == 'a') {
+                $this->redirect("user/index.php");
+            } elseif ($row['status'] == 'u') {
+                $this->redirect('user/index.php');
             }
 
-            // $_SESSION['status'] = $row['status'];
-
-            // if ($row['status'] == 'a') {
-            //     $this->redirect("admin/index.php");
-            // } elseif ($row['status'] == 'u') {
-            //     $this->redirect('user/index.php');
-            // } else {
-            //     echo 'error';
-            // }
-
+            $this->redirect_js('user/index.php');
             // echo "<script>window.location.replace('some.php')</script>";
             // header("Location: user/index.php");
         } else {
@@ -65,31 +52,19 @@ class User extends Config
     }
 
     //echo username
-    public function echo_student($studentID)
+    public function echo_student($loginID)
     {
-        $sql = "SELECT * FROM student WHERE studentID='$studentID'";
+        $sql = "SELECT * FROM student WHERE loginID= '$loginID'";
         $result = $this->conn->query($sql);
-        // $row = array();
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             return $row;
+
+        } else {
+            return $this->conn->error;
         }
 
     }
-    // public function echo_student()
-    // {
-    //     $loginID = $_SESSION['loginID'];
-    //     $sql = "SELECT * FROM student WHERE loginID= '$loginID'";
-    //     $result = $this->conn->query($sql);
-    //     if ($result->num_rows > 0) {
-    //         $row = $result->fetch_assoc();
-    //         return $row;
-
-    //     } else {
-    //         return $this->conn->error;
-    //     }
-
-    // }
 
     //logout
     public function logout()
@@ -189,8 +164,9 @@ class User extends Config
     {
         // session_start();
         if ($_SESSION['loginID'] == false) {
-            // header('Location: ../login.php');
-            $this->redirect_js('../login.php');
+            header('Location: ../login.php');
+            // $this->redirect_js('../login.php');
+            echo 'ff';
 
         }
     }

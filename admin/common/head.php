@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once '../classes/User.php';
-// $user = new User;
+$user = new User;
 // $user->login_required();
 
 ?>
@@ -71,7 +71,7 @@ include_once '../classes/User.php';
 	<link rel="stylesheet" href="../common/css/common.css">
 
 	<!-- Modernizr JS -->
-	<script src="../common/js/modernizr-2.6.2.min.js"></script>
+	<!-- <script src="../common/js/modernizr-2.6.2.min.js"></script> -->
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
 	<script src="../common/js/respond.min.js"></script>
@@ -97,17 +97,12 @@ include_once '../classes/User.php';
 								<li><a href="#"><i class="icon-dribbble2"></i></a></li>
 								<li>Welcome
                                 <?php
-
 $loginID = $_SESSION['loginID'];
-// var_dump($_SESSION);
-
 $user = new User;
 $row = $user->echo_student($loginID);
 echo $row['studentName'];
 
-?>
-
-</li>
+?></li>
 							</ul>
 						</div>
 					</div>
@@ -140,4 +135,5 @@ echo $row['studentName'];
 						</div>
 					</div>
 
+				</div>
 		</nav>
