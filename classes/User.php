@@ -25,27 +25,15 @@ class User extends Config
             } else {
                 echo 'Username and Password error.';
             }
-
-            // $_SESSION['status'] = $row['status'];
-
-            // if ($row['status'] == 'a') {
-            //     $this->redirect("admin/index.php");
-            // } elseif ($row['status'] == 'u') {
-            //     $this->redirect('user/index.php');
-            // } else {
-            //     echo 'error';
-            // }
-
-            // echo "<script>window.location.replace('some.php')</script>";
-            // header("Location: user/index.php");
         } else {
             echo 'Username and Password error.';
 
         }
     }
 
-    //get users
-    public function get_sutdent()
+    //get student
+
+    public function get_students()
     {
         //query
         $sql = "SELECT * FROM student";
@@ -65,9 +53,9 @@ class User extends Config
     }
 
     //echo username
-    public function echo_student($studentID)
+    public function echo_student($loginID)
     {
-        $sql = "SELECT * FROM student WHERE studentID='$studentID'";
+        $sql = "SELECT * FROM student WHERE loginID='$loginID'";
         $result = $this->conn->query($sql);
         // $row = array();
         if ($result->num_rows > 0) {
@@ -76,6 +64,23 @@ class User extends Config
         }
 
     }
+
+    //get student by ID
+    public function get_student_by_loginID($login_id)
+    {
+        $sql = "SELECT * FROM student INNER JOIN login ON student.loginID=login.loginID WHERE student.loginID='$login_id'";
+
+        $result = $this->conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $rows = array();
+            $row = $result->fetch_assoc();
+            return $row;
+        } else {
+            echo $this->conn->error;
+        }
+    }
+
     // public function echo_student()
     // {
     //     $loginID = $_SESSION['loginID'];
@@ -102,22 +107,21 @@ class User extends Config
     }
 
     //change
-    public function change($username, $password, $firstname, $lastname, $email, $user_id)
+    public function change($loginID, $studentName, $studentAdress, $studentBirthdate, $studentBiography, $emailAdress, $password, $profilepic)
     {
 
-        $sqlFirst = "SELECT * FROM users WHERE username = '$username' AND user_id!= '$user_id'";
+        $sqlFirst = "SELECT * FROM login WHERE emailAdress = '$emailAdress' AND emailAdress!= '$emailAdress'";
         $result = $this->conn->query($sqlFirst);
 
         if ($result->num_rows > 0) {
-            echo 'Username is already taken.';
+            echo 'Email is already taken.';
         } else {
 
-            $sql = "UPDATE users SET username='$username',password='$password',email='$email',firstname='$firstname',lastname='$lastname' WHERE user_id=$user_id";
+            $sql = "UPDATE student SET studentName='$studentName',studentAdress='$studentAdress',studentBirthdate='$studentBirthdate',studentBiography='$studentBiography' WHERE loginID='$loginID'";
 
             $result = $this->conn->query($sql);
 
             if ($result) {
-                // header("Location: index.php");
                 echo "<script>window.location.replace('index.php')</script>";
             } else {
                 echo "Error: " . $this->conn->error;
@@ -126,14 +130,18 @@ class User extends Config
     }
 
     //delete
-    public function delete($user_id)
+    public function delete($loginID)
     {
 
-        $sql = "DELETE FROM users WHERE user_id=$user_id";
+        $sql = "DELETE FROM student WHERE loginID=$loginID";
         $result = $this->conn->query($sql);
 
         if ($result) {
-            echo "<script>window.location.replace('index.php')</script>";
+            $sql = "DELETE FROM login WHERE loginID=$loginID";
+            $result = $this->conn->query($sql);
+            if ($result) {
+                echo "<script>window.location.replace('index.php')</script>";
+            }
         } else {
             echo "Error: " . $this->conn->error;
         }
@@ -153,32 +161,32 @@ class User extends Config
                 echo 'Email is already taken.';
             } else {
 
-                if (move_uploaded_file($tmp_name, $target_file)) {
+                // if (move_uploaded_file($tmp_name, $target_file)) {
 
-                    $sql = "INSERT INTO login(emailAdress,password,status) VALUES ('$email','$password','u')";
+                $sql = "INSERT INTO login(emailAdress,password,status) VALUES ('$email','$password','u')";
+                $result = $this->conn->query($sql);
+
+                if ($result) {
+
+                    // $loginID = mysqli_insert_id($this->conn);
+                    $loginID = $this->conn->insert_id;
+
+                    $sql = "INSERT INTO student(studentName,studentAdress,studentBirthdate,loginID,studentPicture) VALUES ('$name','$adress','$birthdate','$loginID','$target_file')";
                     $result = $this->conn->query($sql);
-
                     if ($result) {
 
-                        // $loginID = mysqli_insert_id($this->conn);
-                        $loginID = $this->conn->insert_id;
-
-                        $sql = "INSERT INTO student(studentName,studentAdress,studentBirthdate,loginID,studentPicture) VALUES ('$name','$adress','$birthdate','$loginID','$target_file')";
-                        $result = $this->conn->query($sql);
-                        if ($result) {
-
-                            echo "<script>window.location.replace('login.php')</script>";
-                        } else {
-                            echo 'error';
-                        }
+                        echo "<script>window.location.replace('index.php')</script>";
                     } else {
-                        echo 'Error in inserting record' . $this->conn->error;
-                        exit;
+                        echo 'error';
                     }
-
                 } else {
-                    echo "Error uploading file";
+                    echo 'Error in inserting record' . $this->conn->error;
+                    exit;
                 }
+
+                // } else {
+                //     echo "Error uploading file";
+                // }
             }
 
         }

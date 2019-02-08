@@ -96,7 +96,7 @@ $user = new User;
 								<li><a href="#"><i class="icon-twitter2"></i></a></li>
 								<li><a href="#"><i class="icon-dribbble2"></i></a></li>
 								<li>Welcome
-                                <?php
+								<?php
 $loginID = $_SESSION['loginID'];
 $user = new User;
 $row = $user->echo_student($loginID);

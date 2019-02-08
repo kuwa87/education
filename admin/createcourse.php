@@ -1,6 +1,7 @@
  <?php
 
-include 'common/head.php';
+include_once 'common/head.php';
+include_once '../classes/Course.php';
 
 ?>
 	<aside class="not-slide">
@@ -12,7 +13,7 @@ include 'common/head.php';
 		   			<div class="row">
 			   			<div class="col-md-8 col-md-offset-2 text-center slider-text">
 			   				<div class="slider-text-inner">
-			   					<h1 class="heading-section">Registerd Users</h1>
+			   					<h1 class="heading-section">Register user</h1>
 			   				</div>
 			   			</div>
 			   		</div>
@@ -23,51 +24,53 @@ include 'common/head.php';
 	</aside>
 
 <div class="container">
- <div class="table-wrap pt-5 pb-5 wide-table">
-                 <table class="table">
-            <thead>
-                <tr>
-                    <th>student<br>ID</th>
-                    <th>student<br>Name</th>
-                    <th>student<br>Adress</th>
-                    <th>student<br>Birthdate</th>
-                    <th>student<br>Biography</th>
-                    <th>loginID</th>
-                    <th>student<br>Picture</th>
-                    <th>action</th>
-                </tr>
-            </thead>
-            <tbody>
-<?php
-// $loginID = $_SESSION['loginID'];
+ <div class="table-wrap pt-5 pb-5">
+          <form action="" method="post">
+					<div class="row form-group">
+						<div class="col-md-12 align-items-center">
+							<!-- <label for="name">Name</label> -->
+							<input type="text" name="courseName" class="form-control" placeholder="courseName">
+						</div>
+					</div>
 
-$student = new User;
-$result = $student->get_students();
-// print_r($result);
+					<div class="row form-group">
+						<div class="col-md-12">
+							<!-- <label for="courseDetails">courseDetails</label> -->
+							<input type="text" name="courseDetails" class="form-control" placeholder="courseDetails">
+						</div>
+					</div>
 
-if ($result) {
-    foreach ($result as $row) {
-        $loginID = $row['loginID'];
+					<div class="row form-group">
+						<div class="col-md-12">
+							<!-- <label for="coursePrice">coursePrice</label> -->
+							<input type="text" name="coursePrice" class="form-control" placeholder="coursePrice">
+						</div>
+					</div>
 
-        echo "<tr>";
-        echo "<td>" . $row['studentID'] . "</td>";
-        echo "<td>" . $row['studentName'] . "</td>";
-        echo "<td>" . $row['studentAdress'] . "</td>";
-        echo "<td>" . $row['studentBirthdate'] . "</td>";
-        echo "<td>" . $row['studentBiography'] . "</td>";
-        echo "<td>" . $row['loginID'] . "</td>";
-        echo "<td class='profpic'><img src=../" . $row['studentPicture'] . " alt=''></td>";
-        // echo "<td>" . $row['studentPicture'] . "</td>";
-        echo "<td>
-<a href='edituser.php?loginID=$loginID&action=1' class='btn btn-sm btn-success'>Edit</a> <a href='deleteuser.php?loginID=$loginID&action=3' class='btn btn-sm btn-danger text-white'>Delete</a></td>";
-        echo "</tr>";
-    }
+					<!-- <div class="row form-group">
+						<div class="col-md-12">
+							<input type="hidden" name="loginID" class="form-control" value="<php? ?>">
+						</div>
+					</div> -->
+
+					<div class="form-group">
+						<input type="submit" name="submit" value="Sign Up" class="btn btn-primary">
+					</div>
+				</form>
+				<?php
+if (isset($_POST['submit'])) {
+    $courseName = $_POST['courseName'];
+    $courseDetails = $_POST['courseDetails'];
+    $coursePrice = $_POST['coursePrice'];
+    $loginID = $row['$loginID'];
+
+    $register = new Course;
+    $register->insert($courseName, $courseDetails, $coursePrice, $loginID);
 }
 
 ?>
-            </tbody>
-        </table>
-        <a href="createuser.php" class="btn btn-primary">Add User</a>
+
+        </form>
         </div>
 		</div>
 		</div>

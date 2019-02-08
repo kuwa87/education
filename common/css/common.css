@@ -64,3 +64,24 @@ footer p {
 #fh5co-contact {
     padding: 0;
 }
+
+.profpic img {
+    width: 50px;
+    max-width: 50px;
+
+}
+
+.container {
+    width: 100%;
+}
+
+.container .wide-table {
+    overflow-x: scroll;
+}
+
+table {
+    width: 100%;
+    table-layout: fixed;
+    word-break: break-all;
+    word-wrap: break-all;
+}

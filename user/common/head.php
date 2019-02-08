@@ -139,5 +139,8 @@ echo $row['studentName'];
 							</ul>
 						</div>
 					</div>
+					</div>
+					</div>
 
 		</nav>
+
