@@ -1,7 +1,7 @@
 <?php
 session_start();
-include '../classes/User.php';
-$loginID = $_GET['loginID'];
-$users = new User;
-$row = $users->get_student_by_loginID($loginID);
-$delete = $users->delete($loginID);
+include '../classes/Course.php';
+$courseID = $_GET['courseID'];
+$course = new Course;
+$row = $course->get_course_by_courseID($courseID);
+$delete = $course->delete($courseID);

@@ -1,5 +1,5 @@
 <?php
-// require_once "Config.php";
+require_once "Config.php";
 class Course extends Config
 {
 
@@ -7,7 +7,8 @@ class Course extends Config
     public function get_course()
     {
         //query
-        $sql = "SELECT * FROM course";
+        $sql = "SELECT * FROM course INNER JOIN student ON course.loginID = student.loginID";
+
         $result = $this->conn->query($sql);
 
         //initialize an array
@@ -24,9 +25,9 @@ class Course extends Config
     }
 
     //echo course
-    public function echo_course($course_id)
+    public function echo_course($courseID)
     {
-        $sql = "SELECT * FROM categories WHERE course_id=$course_id";
+        $sql = "SELECT * FROM course WHERE courseID=$courseID";
         $result = $this->conn->query($sql);
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
@@ -38,24 +39,41 @@ class Course extends Config
 
     }
 
+    public function get_course_by_courseID($courseID)
+    {
+        $sql = "SELECT * FROM course WHERE courseID=$courseID";
+
+        // $sql = "SELECT * FROM course INNER JOIN login ON course.courseID=login.loginID WHERE course.courseID='$courseID'";
+
+        $result = $this->conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $rows = array();
+            $row = $result->fetch_assoc();
+            return $row;
+        } else {
+            echo $this->conn->error;
+        }
+    }
+
     //change
-    public function change($course_name, $course_id)
+    public function change($courseName, $courseDetails, $coursePrice, $coursePicture, $loginID, $courseID)
     {
 
-        $sqlFirst = "SELECT * FROM categories WHERE course_name = '$course_name' AND course_id!= '$course_id'";
+        $sqlFirst = "SELECT * FROM categories WHERE courseName = '$courseName' AND courseID!= '$courseID'";
         $result = $this->conn->query($sqlFirst);
 
         if ($result->num_rows > 0) {
             echo 'course_name is already taken.';
         } else {
 
-            $sql = "UPDATE categories SET course_name='$course_name' WHERE course_id=$course_id";
+            $sql = "UPDATE course SET courseName='$courseName', courseDetails='$courseDetails', coursePrice='$coursePrice', coursePicture='$coursePicture', loginID='$loginID', courseID='$courseID' WHERE courseID=$courseID";
 
             $result = $this->conn->query($sql);
 
             if ($result) {
                 // header("Location: dashboard.php");
-                echo "<script>window.location.replace('categories.php')</script>";
+                echo "<script>window.location.replace('courses.php')</script>";
             } else {
                 echo "Error: " . $this->conn->error;
             }
@@ -63,21 +81,21 @@ class Course extends Config
     }
 
     //delete
-    public function delete($course_id)
+    public function delete($courseID)
     {
 
-        $sql = "DELETE FROM categories WHERE course_id=$course_id";
+        $sql = "DELETE FROM course WHERE courseID=$courseID";
         $result = $this->conn->query($sql);
 
         if ($result) {
-            echo "<script>window.location.replace('categories.php')</script>";
+            echo "<script>window.location.replace('courses.php')</script>";
         } else {
             echo "Error: " . $this->conn->error;
         }
     }
 
     //insert
-    public function insert($courseName, $courseDetails, $coursePrice, $loginID)
+    public function insert($courseName, $courseDetails, $coursePrice, $target_dir, $target_file, $tmp_name, $loginID)
     {
 
         $sqlFirst = "SELECT * FROM course WHERE courseName = '$courseName'";
@@ -86,14 +104,26 @@ class Course extends Config
         if ($result->num_rows > 0) {
             echo 'course_name is already taken.';
         } else {
+            if (move_uploaded_file($tmp_name, $target_file)) {
 
-            $sql = "INSERT INTO course(courseName, courseDetails, coursePrice, loginID) VALUES ('$courseName', '$courseDetails', '$coursePrice', '$loginID')";
-            $result = $this->conn->query($sql);
+                $sql = "INSERT INTO course(courseName, courseDetails, coursePrice, coursePicture, loginID) VALUES ('$courseName', '$courseDetails', '$coursePrice', '$target_file', '$loginID' )";
+                $result = $this->conn->query($sql);
 
-            if ($result == true) {
-                $this->redirect_js("courses.php");
+                if ($result == true) {
+                    $this->redirect_js("courses.php");
+                } else {
+                    echo 'Error in inserting record' . $this->conn->error;
+                }
+
             } else {
-                echo 'Error in inserting record' . $this->conn->error;
+                $sql = "INSERT INTO course(courseName, courseDetails, coursePrice, loginID) VALUES ('$courseName', '$courseDetails', '$coursePrice', '$loginID' )";
+                $result = $this->conn->query($sql);
+
+                if ($result == true) {
+                    $this->redirect_js("courses.php");
+                } else {
+                    echo 'Error in inserting record' . $this->conn->error;
+                }
             }
 
         }

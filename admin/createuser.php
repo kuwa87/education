@@ -86,7 +86,7 @@ if (isset($_POST['submit'])) {
     // $picture = $_POST['picture'];
 
 //file upload
-    $target_dir = "user_images/";
+    $target_dir = "../user_images/";
     $target_file = $target_dir . basename($_FILES['profilepic']['name']);
     $tmp_name = $_FILES['profilepic']['tmp_name'];
 

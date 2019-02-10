@@ -79,8 +79,8 @@ if (isset($_POST['submit'])) {
 
         </form>
         </div>
-		</div>
-		</div>
+
+        </div>
 
 <footer>
 			<div class="container">
@@ -89,6 +89,7 @@ if (isset($_POST['submit'])) {
 						<p class="">
 							<small class="block">&copy; 2016 Free HTML5. All Rights Reserved.</small>
 						</p>
+					</div>
 					</div>
 				</div>
 		</footer>

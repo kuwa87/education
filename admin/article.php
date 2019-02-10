@@ -191,6 +191,7 @@ $loginID = '1';
 
 		</div>
 	</div>
+        </div>
 
 <footer>
 			<div class="container">
@@ -199,6 +200,7 @@ $loginID = '1';
 						<p class="">
 							<small class="block">&copy; 2016 Free HTML5. All Rights Reserved.</small>
 						</p>
+					</div>
 					</div>
 				</div>
 		</footer>

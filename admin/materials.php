@@ -1,6 +1,7 @@
  <?php
 
 include 'common/head.php';
+include '../classes/Material.php';
 
 ?>
 	<aside class="not-slide">
@@ -12,7 +13,7 @@ include 'common/head.php';
 		   			<div class="row">
 			   			<div class="col-md-8 col-md-offset-2 text-center slider-text">
 			   				<div class="slider-text-inner">
-			   					<h1 class="heading-section">Registerd Users</h1>
+			   					<h1 class="heading-section">All Materials</h1>
 			   				</div>
 			   			</div>
 			   		</div>
@@ -23,17 +24,26 @@ include 'common/head.php';
 	</aside>
 
 <div class="container">
+	<ul class="row course-btn">
+<?php
+$courseselect = new Course;
+$result = $courseselect->get_course();
+foreach ($result as $row) {
+    $courseID = $row['courseID'];
+    $courseName = $row['courseName'];
+    echo "<li class='col-sm-4'><a href='selectedcourse.php?courseID=$courseID'><span>" . $row['courseName'] . "</span></a></li>";
+}
+?>
+</ul>
+
  <div class="table-wrap pt-5 pb-5 wide-table">
                  <table class="table">
             <thead>
                 <tr>
-                    <th>student<br>ID</th>
-                    <th>student<br>Name</th>
-                    <th>student<br>Adress</th>
-                    <th>student<br>Birthdate</th>
-                    <th>student<br>Biography</th>
-                    <th>loginID</th>
-                    <th>student<br>Picture</th>
+                    <th>material<br>ID</th>
+                    <th>material<br>Name</th>
+                    <th>material<br>Details</th>
+                    <th>Course<br>Name</th>
                     <th>action</th>
                 </tr>
             </thead>
@@ -41,25 +51,21 @@ include 'common/head.php';
 <?php
 // $loginID = $_SESSION['loginID'];
 
-$student = new User;
-$result = $student->get_students();
+$material = new Material;
+$result = $material->get_material();
 // print_r($result);
 
 if ($result) {
     foreach ($result as $row) {
-        $loginID = $row['loginID'];
+        $materialID = $row['materialID'];
 
         echo "<tr>";
-        echo "<td>" . $row['studentID'] . "</td>";
-        echo "<td>" . $row['studentName'] . "</td>";
-        echo "<td>" . $row['studentAdress'] . "</td>";
-        echo "<td>" . $row['studentBirthdate'] . "</td>";
-        echo "<td>" . $row['studentBiography'] . "</td>";
-        echo "<td>" . $row['loginID'] . "</td>";
-        echo "<td class='profpic'><img src=../" . $row['studentPicture'] . " alt=''></td>";
-        // echo "<td>" . $row['studentPicture'] . "</td>";
+        echo "<td>" . $row['materialID'] . "</td>";
+        echo "<td>" . $row['materialName'] . "</td>";
+        echo "<td>" . $row['materialDetails'] . "</td>";
+        echo "<td>" . $row['courseName'] . "</td>";
         echo "<td>
-<a href='edituser.php?loginID=$loginID&action=1' class='btn btn-sm btn-success'>Edit</a> <a href='deleteuser.php?loginID=$loginID&action=3' class='btn btn-sm btn-danger text-white'>Delete</a></td>";
+<a href='editmaterial.php?materialID=$materialID&action=1' class='btn btn-sm btn-success'>Edit</a> <a href='deleteMaterial.php?materialID=$materialID&action=3' class='btn btn-sm btn-danger text-white'>Delete</a></td>";
         echo "</tr>";
     }
 }
@@ -67,7 +73,7 @@ if ($result) {
 ?>
             </tbody>
         </table>
-        <a href="createuser.php" class="btn btn-primary">Add User</a>
+        <a href="creatematerial.php" class="btn btn-primary">Add Materials</a>
         </div>
         </div>
 
@@ -83,6 +89,7 @@ if ($result) {
 				</div>
 		</footer>
 	</div>
+
 
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>

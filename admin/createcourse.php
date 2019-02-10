@@ -1,7 +1,6 @@
  <?php
 
 include_once 'common/head.php';
-include_once '../classes/Course.php';
 
 ?>
 	<aside class="not-slide">
@@ -13,7 +12,7 @@ include_once '../classes/Course.php';
 		   			<div class="row">
 			   			<div class="col-md-8 col-md-offset-2 text-center slider-text">
 			   				<div class="slider-text-inner">
-			   					<h1 class="heading-section">Register user</h1>
+			   					<h1 class="heading-section">Register Course</h1>
 			   				</div>
 			   			</div>
 			   		</div>
@@ -25,7 +24,7 @@ include_once '../classes/Course.php';
 
 <div class="container">
  <div class="table-wrap pt-5 pb-5">
-          <form action="" method="post">
+          <form action="" method="post" enctype="multipart/form-data">
 					<div class="row form-group">
 						<div class="col-md-12 align-items-center">
 							<!-- <label for="name">Name</label> -->
@@ -47,11 +46,28 @@ include_once '../classes/Course.php';
 						</div>
 					</div>
 
-					<!-- <div class="row form-group">
-						<div class="col-md-12">
-							<input type="hidden" name="loginID" class="form-control" value="<php? ?>">
-						</div>
-					</div> -->
+        <div class="form-group">
+                <label>Course Picture</label>
+                <input type="file" name="coursepicture">
+        </div>
+
+		<div class="row form-group">
+			<div class="col-md-12">
+			<select id="auther" name="courseID">
+            <option value="">Upload by</option>
+            <?php
+$course = new Course;
+$result = $course->get_course();
+foreach ($result as $row) {
+    $courseID = $row['courseID'];
+    $studentName = $row['studentName'];
+    echo "<option value='$courseID'>$studentName</option>";
+
+}
+?>
+            </select>
+			</div>
+			</div>
 
 					<div class="form-group">
 						<input type="submit" name="submit" value="Sign Up" class="btn btn-primary">
@@ -62,10 +78,19 @@ if (isset($_POST['submit'])) {
     $courseName = $_POST['courseName'];
     $courseDetails = $_POST['courseDetails'];
     $coursePrice = $_POST['coursePrice'];
-    $loginID = $row['$loginID'];
+
+    //get loginID
+    $loginID = $_SESSION['loginID'];
+    $user = new User;
+    $row = $user->echo_student($loginID);
+
+    // file upload
+    $target_dir = "../course_images/";
+    $target_file = $target_dir . basename($_FILES['coursepicture']['name']);
+    $tmp_name = $_FILES['coursepicture']['tmp_name'];
 
     $register = new Course;
-    $register->insert($courseName, $courseDetails, $coursePrice, $loginID);
+    $register->insert($courseName, $courseDetails, $coursePrice, $target_dir, $target_file, $tmp_name, $loginID);
 }
 
 ?>

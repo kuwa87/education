@@ -81,6 +81,21 @@ class User extends Config
         }
     }
 
+    // public function echo_student()
+    // {
+    //     $loginID = $_SESSION['loginID'];
+    //     $sql = "SELECT * FROM student WHERE loginID= '$loginID'";
+    //     $result = $this->conn->query($sql);
+    //     if ($result->num_rows > 0) {
+    //         $row = $result->fetch_assoc();
+    //         return $row;
+
+    //     } else {
+    //         return $this->conn->error;
+    //     }
+
+    // }
+
     //logout
     public function logout()
     {
@@ -146,32 +161,32 @@ class User extends Config
                 echo 'Email is already taken.';
             } else {
 
-                if (move_uploaded_file($tmp_name, $target_file)) {
+                // if (move_uploaded_file($tmp_name, $target_file)) {
 
-                    $sql = "INSERT INTO login(emailAdress,password,status) VALUES ('$email','$password','u')";
+                $sql = "INSERT INTO login(emailAdress,password,status) VALUES ('$email','$password','u')";
+                $result = $this->conn->query($sql);
+
+                if ($result) {
+
+                    // $loginID = mysqli_insert_id($this->conn);
+                    $loginID = $this->conn->insert_id;
+
+                    $sql = "INSERT INTO student(studentName,studentAdress,studentBirthdate,loginID,studentPicture) VALUES ('$name','$adress','$birthdate','$loginID','$target_file')";
                     $result = $this->conn->query($sql);
-
                     if ($result) {
 
-                        // $loginID = mysqli_insert_id($this->conn);
-                        $loginID = $this->conn->insert_id;
-
-                        $sql = "INSERT INTO student(studentName,studentAdress,studentBirthdate,loginID,studentPicture) VALUES ('$name','$adress','$birthdate','$loginID','$target_file')";
-                        $result = $this->conn->query($sql);
-                        if ($result) {
-
-                            echo "<script>window.location.replace('index.php')</script>";
-                        } else {
-                            echo 'error';
-                        }
+                        echo "<script>window.location.replace('index.php')</script>";
                     } else {
-                        echo 'Error in inserting record' . $this->conn->error;
-                        exit;
+                        echo 'error';
                     }
-
                 } else {
-                    echo "Error uploading file";
+                    echo 'Error in inserting record' . $this->conn->error;
+                    exit;
                 }
+
+                // } else {
+                //     echo "Error uploading file";
+                // }
             }
 
         }

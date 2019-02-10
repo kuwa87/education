@@ -1,7 +1,7 @@
  <?php
 
 include 'common/head.php';
-include '../classes/Course.php';
+// include '../classes/Course.php';
 
 ?>
 	<aside class="not-slide">
@@ -32,16 +32,17 @@ include '../classes/Course.php';
                     <th>course<br>Name</th>
                     <th>course<br>Details</th>
                     <th>course<br>Price</th>
-                    <th>loginID</th>
+                    <th>Upload by</th>
+                    <th>Course Picture</th>
                     <th>action</th>
                 </tr>
             </thead>
             <tbody>
 <?php
-// $loginID = $_SESSION['loginID'];
 
 $course = new Course;
 $result = $course->get_course();
+
 // print_r($result);
 
 if ($result) {
@@ -50,12 +51,14 @@ if ($result) {
 
         echo "<tr>";
         echo "<td>" . $row['courseID'] . "</td>";
-        echo "<td>" . $row['courseName'] . "</td>";
+        echo "<td><a href='selectedcourse.php?courseID=" . $row['courseID'] . "'>" . $row['courseName'] . "</a></td>";
         echo "<td>" . $row['courseDetails'] . "</td>";
         echo "<td>" . $row['coursePrice'] . "</td>";
-        echo "<td>" . $row['loginID'] . "</td>";
+        echo "<td>" . $row['studentName'] . "</td>";
         // echo "<td class='profpic'><img src=../" . $row['studentPicture'] . " alt=''></td>";
         // echo "<td>" . $row['studentPicture'] . "</td>";
+        echo "<td class='profpic'><img src=../course_images/" . $row['coursePicture'] . " alt=''></td>";
+
         echo "<td>
 <a href='editcourse.php?courseID=$courseID&action=1' class='btn btn-sm btn-success'>Edit</a> <a href='deletecourse.php?courseID=$courseID&action=3' class='btn btn-sm btn-danger text-white'>Delete</a></td>";
         echo "</tr>";
@@ -65,7 +68,7 @@ if ($result) {
 ?>
             </tbody>
         </table>
-        <a href="createcourse.php" class="btn btn-primary">Add User</a>
+        <a href="createcourse.php" class="btn btn-primary">Add courses</a>
         </div>
 		</div>
 		</div>

@@ -1,11 +1,10 @@
  <?php
 
 include 'common/head.php';
-// include '../classes/Course.php';
-$courseID = $_GET['courseID'];
-$course = new Course;
-$row = $course->get_course_by_courseID($courseID);
-// echo '1';
+include '../classes/Material.php';
+$materialID = $_GET['materialID'];
+$material = new Material;
+$row = $material->get_material_by_materialID($materialID);
 
 ?>
 	<aside class="not-slide">
@@ -17,7 +16,7 @@ $row = $course->get_course_by_courseID($courseID);
 		   			<div class="row">
 			   			<div class="col-md-8 col-md-offset-2 text-center slider-text">
 			   				<div class="slider-text-inner">
-			   					<h1 class="heading-section">Edit user</h1>
+			   					<h1 class="heading-section">Edit Material</h1>
 			   				</div>
 			   			</div>
 			   		</div>
@@ -32,42 +31,58 @@ $row = $course->get_course_by_courseID($courseID);
            <form action="" method="post" class="p-5">
             <div class="form-group">
             <label for="name">name</label>
-            <input type="text" name="courseName" class="form-control" id="name" value="<?php echo $row['courseName']; ?>">
+            <input type="text" name="materialName" class="form-control" id="name" value="<?php echo $row['materialName']; ?>">
             </div>
             <div class="form-group">
-            <label for="adress">courseDetails</label>
-            <input type="text" name="courseDetails" class="form-control" id="adress" value="<?php echo $row['courseDetails']; ?>">
+            <label for="adress">materialDetails</label>
+            <input type="text" name="materialDetails" class="form-control" id="adress" value="<?php echo $row['materialDetails']; ?>">
             </div>
-            <div class="form-group">
-            <label for="birthdate">coursePrice</label>
-            <input type="text" name="coursePrice" class="form-control" id="coursePrice" value="<?php echo $row['coursePrice']; ?>">
-            </div>
-            <div class="form-group">
-            <label for="loginID">Upload by (Auther loginID)</label>
-            <input type="text" name="loginID" class="form-control" id="loginID" value="<?php echo $row['loginID']; ?>">
-            </div>
-            <input type="hidden" name="courseID" value="<?php echo $row['courseID']; ?>">
+					<div class="row form-group">
+						<div class="col-md-12">
+							<select id="course" name="courseID">
+            					<option value="">select course</option>
+            <?php
+include_once '../classes/Course.php';
+
+$course = new Course;
+$result = $course->get_course();
+foreach ($result as $row) {
+    $courseID = $row['courseID'];
+    $courseName = $row['courseName'];
+    echo "<option value='$courseID'>$courseName</option>";
+
+}
+?>
+           					</select>
+						</div>
+					</div>
+			<input type="hidden" name="materialID" value="<?php
+
+$materialID = $_GET['materialID'];
+$material = new Material;
+$row = $material->get_material_by_materialID($materialID);
+
+echo $row['materialID'];?>">
             <input type="submit" value="submit" name="submit" class="btn btn-primary btn-block">
 
             <?php
 if (isset($_POST['submit'])) {
-    $courseName = $_POST['courseName'];
-    $courseDetails = $_POST['courseDetails'];
-    $coursePrice = $_POST['coursePrice'];
-    $loginID = $_POST['loginID'];
+    $materialName = $_POST['materialName'];
+    $materialDetails = $_POST['materialDetails'];
     $courseID = $_POST['courseID'];
+    $materialID = $_POST['materialID'];
 
-    $user = new Course();
+    $material = new Material();
 
-    $user->change($courseName, $courseDetails, $coursePrice, $loginID, $courseID);
+    $material->change($materialName, $materialDetails, $courseID, $materialID);
 
 }
 ?>
 
         </form>
         </div>
-		</div>
-		</div>
+
+        </div>
 
 <footer>
 			<div class="container">
@@ -77,9 +92,11 @@ if (isset($_POST['submit'])) {
 							<small class="block">&copy; 2016 Free HTML5. All Rights Reserved.</small>
 						</p>
 					</div>
+					</div>
 				</div>
 		</footer>
 	</div>
+
 
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
