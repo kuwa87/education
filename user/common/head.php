@@ -137,7 +137,19 @@ foreach ($result as $row) {
 									</ul>
 								</li>
 								<!-- <li><a href="contact.php">Contact</a></li> -->
-								<li class="btn-cta"><a href="register.php"><span>Edit profile</span></a></li>
+								<li class="btn-cta">
+<a href="edituser.php?loginID=
+
+								<?php
+$loginID = $_SESSION['loginID'];
+$user = new User;
+$row = $user->echo_student($loginID);
+echo $loginID;
+?>
+&action=1.php"><span>Edit profile</span></a>
+</li>
+
+								</li>
 								<li class="btn-cta"><a href="logout.php"><span>Logout</span></a></li>
 							</ul>
 						</div>

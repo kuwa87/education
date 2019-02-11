@@ -229,5 +229,29 @@ class User extends Config
     //         header('Location: ../login.php');
     //     }
     // }
+    public function insertfile($studentName, $target_dir, $target_file, $admin_file, $tmp_name, $loginID)
+    {
+
+        $sqlFirst = "SELECT * FROM student WHERE loginID = '$loginID'";
+        $result = $this->conn->query($sqlFirst);
+
+        if (move_uploaded_file($tmp_name, $admin_file)) {
+
+            $sql = "UPDATE student SET studentPicture = '$target_file' WHERE loginID ='$loginID'";
+            $result = $this->conn->query($sql);
+
+            if ($result == true) {
+
+                // echo "<script>location.reload()</script>";
+                // exit;
+
+                $this->redirect_js("edituser.php?loginID=$loginID&action=1");
+            } else {
+                echo 'Error in inserting record' . $this->conn->error;
+            }
+
+        }
+
+    }
 
 }
