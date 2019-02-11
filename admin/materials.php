@@ -43,6 +43,8 @@ foreach ($result as $row) {
                     <th>material<br>ID</th>
                     <th>material<br>Name</th>
                     <th>material<br>Details</th>
+                    <th>Material<br>Image</th>
+                    <th>Material<br>Content</th>
                     <th>Course<br>Name</th>
                     <th>action</th>
                 </tr>
@@ -63,6 +65,8 @@ if ($result) {
         echo "<td>" . $row['materialID'] . "</td>";
         echo "<td>" . $row['materialName'] . "</td>";
         echo "<td>" . $row['materialDetails'] . "</td>";
+        echo "<td class='profpic'><img src=../material_images/" . $row['materialImage'] . " alt=''><br></td>";
+        echo "<td class='profpic'><a href='../material_contents/" . $row['materialContent'] . " ' target='_blank'>content</a></td>";
         echo "<td>" . $row['courseName'] . "</td>";
         echo "<td>
 <a href='editmaterial.php?materialID=$materialID&action=1' class='btn btn-sm btn-success'>Edit</a> <a href='deleteMaterial.php?materialID=$materialID&action=3' class='btn btn-sm btn-danger text-white'>Delete</a></td>";

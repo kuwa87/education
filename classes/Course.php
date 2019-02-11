@@ -57,7 +57,7 @@ class Course extends Config
     }
 
     //change
-    public function change($courseName, $courseDetails, $coursePrice, $coursePicture, $loginID, $courseID)
+    public function change($courseName, $courseDetails, $coursePrice, $loginID, $courseID)
     {
 
         $sqlFirst = "SELECT * FROM categories WHERE courseName = '$courseName' AND courseID!= '$courseID'";
@@ -67,7 +67,7 @@ class Course extends Config
             echo 'course_name is already taken.';
         } else {
 
-            $sql = "UPDATE course SET courseName='$courseName', courseDetails='$courseDetails', coursePrice='$coursePrice', coursePicture='$coursePicture', loginID='$loginID', courseID='$courseID' WHERE courseID=$courseID";
+            $sql = "UPDATE course SET courseName='$courseName', courseDetails='$courseDetails', coursePrice='$coursePrice', loginID='$loginID', courseID='$courseID' WHERE courseID=$courseID";
 
             $result = $this->conn->query($sql);
 
@@ -129,5 +129,31 @@ class Course extends Config
         }
 
     }
+    public function insertfile($courseName, $target_dir, $target_file, $tmp_name, $courseID)
+    {
+
+        $sqlFirst = "SELECT * FROM course WHERE courseName = '$courseName'";
+        $result = $this->conn->query($sqlFirst);
+
+        if (move_uploaded_file($tmp_name, $target_file)) {
+
+            $sql = "UPDATE course SET coursePicture = '$target_file' WHERE courseID ='$courseID'";
+            $result = $this->conn->query($sql);
+
+            if ($result == true) {
+
+                // echo "<script>location.reload()</script>";
+                // exit;
+
+                $this->redirect_js("editcourse.php?courseID=$courseID&action=1");
+            } else {
+                echo 'Error in inserting record' . $this->conn->error;
+            }
+
+        }
+
+    }
+
+    // SELECT * FROM database WHERE filename LIKE %.jpg OR filename LIKE %.png
 
 }

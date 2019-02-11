@@ -56,12 +56,12 @@ include_once 'common/head.php';
 			<select id="auther" name="courseID">
             <option value="">Upload by</option>
             <?php
-$course = new Course;
-$result = $course->get_course();
+// $course = new Course;
+$result = $user->get_teachers();
 foreach ($result as $row) {
-    $courseID = $row['courseID'];
+    // $courseID = $row['courseID'];
     $studentName = $row['studentName'];
-    echo "<option value='$courseID'>$studentName</option>";
+    echo "<option value='$loginID'>$studentName</option>";
 
 }
 ?>

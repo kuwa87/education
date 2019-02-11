@@ -17,7 +17,7 @@ $row = $course->get_course_by_courseID($courseID);
 		   			<div class="row">
 			   			<div class="col-md-8 col-md-offset-2 text-center slider-text">
 			   				<div class="slider-text-inner">
-			   					<h1 class="heading-section">Edit user</h1>
+			   					<h1 class="heading-section">Edit Course</h1>
 			   				</div>
 			   			</div>
 			   		</div>
@@ -29,6 +29,30 @@ $row = $course->get_course_by_courseID($courseID);
 
 <div class="container">
  <div class="table-wrap pt-5 pb-5">
+	            <form action="" method="post" class="p-5" enctype="multipart/form-data">
+
+	    	<div class="form-group editpic">
+				<img class="" src="<?php echo $row['coursePicture']; ?>" alt=""><br>
+				        <div class="form-group">
+                <label>Course Picture</label>
+                <input type="file" name="coursepicture">
+        </div>
+				<input type="submit" value="Save Photo" name="photochange" class="btn btn-primary">
+			</div>
+			<?php
+if (isset($_POST['photochange'])) {
+    $courseName = $row['courseName'];
+
+    // file upload
+    $target_dir = "../course_images/";
+    $target_file = $target_dir . basename($_FILES['coursepicture']['name']);
+    $tmp_name = $_FILES['coursepicture']['tmp_name'];
+
+    $register = new Course;
+    $register->insertfile($courseName, $target_dir, $target_file, $tmp_name, $courseID);
+}
+?>
+			</form>
            <form action="" method="post" class="p-5">
             <div class="form-group">
             <label for="name">name</label>
@@ -46,8 +70,9 @@ $row = $course->get_course_by_courseID($courseID);
             <label for="loginID">Upload by (Auther loginID)</label>
             <input type="text" name="loginID" class="form-control" id="loginID" value="<?php echo $row['loginID']; ?>">
             </div>
-            <input type="hidden" name="courseID" value="<?php echo $row['courseID']; ?>">
-            <input type="submit" value="submit" name="submit" class="btn btn-primary btn-block">
+			<input type="hidden" name="courseID" value="<?php echo $row['courseID']; ?>">
+			<a href='courses.php' class="btn btn-primary">back to courses</a>
+            <input type="submit" value="submit" name="submit" class="btn btn-primary">
 
             <?php
 if (isset($_POST['submit'])) {

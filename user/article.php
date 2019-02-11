@@ -137,40 +137,24 @@ $loginID = '1';
 				</div>
 			</div>
 		</nav>
-		<aside id="fh5co-hero">
-			<div class="flexslider">
-				<ul class="slides">
-					<li style="background-image: url(../common/images/img_bg_1.jpg);">
-						<!-- <div class="overlay-gradient"></div> -->
-						<div class="container">
-							<div class="row">
-								<div class="col-md-8 col-md-offset-2 text-center slider-text">
-									<div class="slider-text-inner">
-										<h1>The Roots of Education are Bitter, But the Fruit is Sweet</h1>
-										<!-- <h2>Brought to you by <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a></h2> -->
-										<p><a class="btn btn-primary btn-lg" href="#">Start Learning Now!</a></p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</li>
-					<!-- <li style="background-image: url(../common/images/img_bg_2.jpg);">
-						<div class="overlay-gradient"></div>
-						<div class="container">
-							<div class="row">
-								<div class="col-md-8 col-md-offset-2 text-center slider-text">
-									<div class="slider-text-inner">
-										<h1>The Great Aim of Education is not Knowledge, But Action</h1>
-										<h2>Brought to you by <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a></h2>
-										<p><a class="btn btn-primary btn-lg btn-learn" href="#">Start Learning Now!</a></p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</li> -->
-				</ul>
-			</div>
-		</aside>
+	<aside class="not-slide">
+		<div class="flexslider">
+			<ul class="slides">
+		   	<li style="background-image: url(../common/images/img_bg_4.jpg);">
+		   		<div class="overlay-gradient"></div>
+		   		<div class="container">
+		   			<div class="row">
+			   			<div class="col-md-8 col-md-offset-2 text-center slider-text">
+			   				<div class="slider-text-inner">
+			   					<h1 class="heading-section">Course Detail</h1>
+			   				</div>
+			   			</div>
+			   		</div>
+		   		</div>
+		   	</li>
+		  	</ul>
+	  	</div>
+	</aside>
 
 	<div id="fh5co-blog">
 		<div class="container">

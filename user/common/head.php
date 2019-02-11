@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once '../classes/User.php';
-// $user = new User;
+$user = new User;
 // $user->login_required();
 
 ?>
@@ -71,7 +71,7 @@ include_once '../classes/User.php';
 	<link rel="stylesheet" href="../common/css/common.css">
 
 	<!-- Modernizr JS -->
-	<script src="../common/js/modernizr-2.6.2.min.js"></script>
+	<!-- <script src="../common/js/modernizr-2.6.2.min.js"></script> -->
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
 	<script src="../common/js/respond.min.js"></script>
@@ -96,18 +96,13 @@ include_once '../classes/User.php';
 								<li><a href="#"><i class="icon-twitter2"></i></a></li>
 								<li><a href="#"><i class="icon-dribbble2"></i></a></li>
 								<li>Welcome
-                                <?php
-
+								<?php
 $loginID = $_SESSION['loginID'];
-// var_dump($_SESSION);
-
 $user = new User;
 $row = $user->echo_student($loginID);
 echo $row['studentName'];
 
-?>
-
-</li>
+?></li>
 							</ul>
 						</div>
 					</div>
@@ -121,26 +116,33 @@ echo $row['studentName'];
 						</div>
 						<div class="col-xs-10 text-right menu-1">
 							<ul>
-								<li class="active"><a href="index.php">Home</a></li>
-								<!-- <li><a href="courses.html">Courses</a></li>
-								<li><a href="teacher.html">Teacher</a></li>
-								<li><a href="about.html">About</a></li>
-								<li><a href="pricing.html">Pricing</a></li> -->
+								<li><a href="index.php">Home</a></li>
+								<li><a href="courses.php">Courses</a></li>
+								<li><a href="materials.php">Materials</a></li>
 								<li class="has-dropdown">
-									<a href="index.php">Courses</a>
+									<a href="">Select Materials</a>
 									<ul class="dropdown">
-										<li><a href="#design">Web Design</a></li>
-										<li><a href="#commerce">eCommerce</a></li>
+										<!-- <li><a href="#design">Web Design</a></li>
+										<li><a href="#commerce">eCommerce</a></li> -->
+										<?php
+include_once '../classes/Course.php';
+$course = new Course;
+$result = $course->get_course();
+foreach ($result as $row) {
+    $courseID = $row['courseID'];
+    $courseName = $row['courseName'];
+    echo "<li><a class='dropdown-item' href='selectedcourse.php?courseID=$courseID'>" . $row['courseName'] . "</a></li>";
+}
+?>
 									</ul>
 								</li>
-								<li><a href="contact.php">Contact</a></li>
+								<!-- <li><a href="contact.php">Contact</a></li> -->
+								<li class="btn-cta"><a href="register.php"><span>Edit profile</span></a></li>
 								<li class="btn-cta"><a href="logout.php"><span>Logout</span></a></li>
-								<!-- <li class="btn-cta"><a href="register.php"><span>Register</span></a></li> -->
 							</ul>
 						</div>
 					</div>
-					</div>
-					</div>
 
+				</div>
+				</div>
 		</nav>
-

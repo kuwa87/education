@@ -1,54 +1,59 @@
  <?php
-// session_start();
 include 'common/head.php';
 
 ?>
- 		<aside id="fh5co-hero">
-			<div class="flexslider">
-				<ul class="slides">
-					<li style="background-image: url(../common/images/img_bg_1.jpg);">
-						<!-- <div class="overlay-gradient"></div> -->
-						<div class="container">
-							<div class="row">
-								<div class="col-md-8 col-md-offset-2 text-center slider-text">
-									<div class="slider-text-inner">
-										<h1>The Roots of Education are Bitter, But the Fruit is Sweet</h1>
-										<!-- <h2>Brought to you by <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a></h2> -->
-										<p><a class="btn btn-primary btn-lg" href="#">Start Learning Now!</a></p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</li>
-					<!-- <li style="background-image: url(../common/images/img_bg_2.jpg);">
-						<div class="overlay-gradient"></div>
-						<div class="container">
-							<div class="row">
-								<div class="col-md-8 col-md-offset-2 text-center slider-text">
-									<div class="slider-text-inner">
-										<h1>The Great Aim of Education is not Knowledge, But Action</h1>
-										<h2>Brought to you by <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a></h2>
-										<p><a class="btn btn-primary btn-lg btn-learn" href="#">Start Learning Now!</a></p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</li> -->
-				</ul>
-			</div>
-		</aside>
+	<aside class="not-slide">
+		<div class="flexslider">
+			<ul class="slides">
+		   	<li style="background-image: url(../common/images/img_bg_4.jpg);">
+		   		<div class="overlay-gradient"></div>
+		   		<div class="container">
+		   			<div class="row">
+			   			<div class="col-md-8 col-md-offset-2 text-center slider-text">
+			   				<div class="slider-text-inner">
+			   					<h1 class="heading-section">Your Course</h1>
+			   				</div>
+			   			</div>
+			   		</div>
+		   		</div>
+		   	</li>
+		  	</ul>
+	  	</div>
+	</aside>
 
-		<div id="fh5co-course">
 			<div class="container">
-				<div class="row animate-box">
-					<div class="col-md-6 col-md-offset-3 text-center fh5co-heading">
-						<h2>Our Course</h2>
-						<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab
-							aliquam dolor eius.</p>
-					</div>
-				</div>
 				<div class="row">
-					<div class="col-md-6 animate-box">
+				<div class="row">
+<?php
+
+$course = new Course;
+$result = $course->get_course();
+
+// print_r($result);
+
+if ($result) {
+    foreach ($result as $row) {
+        $courseID = $row['courseID'];
+
+        echo "<div class='col-lg-4 col-md-4'>";
+        echo "<div class='fh5co-blog animate-box'>";
+        echo "<a href='article.php' class='blog-img-holder' style='background-image: url(" . $row['coursePicture'] . ");'></a>";
+        // echo "<a href='article.php' class='blog-img-holder'></a>";
+        echo "<div class='blog-text'>";
+        echo "<h3><a href='article.php'>" . $row['courseName'] . "</a></h3>";
+        echo "<span class='posted_on'>" . $row['coursePrice'] . "</span>";
+        echo "<span class='comment'><a href=''>21<i class='icon-speech-bubble'></i></a></span>";
+        echo "<p>" . $row['courseDetails'] . "</p>";
+        echo "</div></div></div>";
+
+    }
+}
+?>
+
+</div>
+
+
+					<!-- <div class="col-md-6 animate-box">
 						<div class="course">
 							<a href="#" class="course-img" style="background-image: url(../common/images/project-1.jpg);">
 							</a>
@@ -56,22 +61,10 @@ include 'common/head.php';
 								<h3><a href="#">Web Master</a></h3>
 								<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab
 									aliquam dolor eius molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-								<span><a href="#" class="btn btn-primary btn-sm btn-course">Take A Course</a></span>
+								<span><a href="#" class="btn btn-primary btn-sm btn-course">Enter</a></span>
 							</div>
 						</div>
-					</div>
-					<div class="col-md-6 animate-box">
-						<div class="course">
-							<a href="#commerce" class="course-img" style="background-image: url(../common/images/project-4.jpg);">
-							</a>
-							<div class="desc" id="commerce">
-								<h3><a href="#">Health &amp; Psychology</a></h3>
-								<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab
-									aliquam dolor eius molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-								<span><a href="#" class="btn btn-primary btn-sm btn-course">Take A Course</a></span>
-							</div>
-						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>
@@ -102,7 +95,6 @@ include 'common/head.php';
 					</div>
 				</div>
 			</div>
-		</div>
 		</div>
 <footer>
 			<div class="container">

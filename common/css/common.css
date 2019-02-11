@@ -65,10 +65,32 @@ footer p {
     padding: 0;
 }
 
+.profpic a {
+    width: 80px;
+    height: 80px;
+    padding: 5px;
+    display: block;
+    background-color: #f0f0f0;
+    text-align: center;
+
+}
+
 .profpic img {
     width: 50px;
     max-width: 50px;
 
+}
+
+.editpic img {
+    width: 100px;
+    max-width: 100px;
+    margin-bottom: 10px;
+
+}
+
+.editpic {
+    background-color: #f0f0f0;
+    padding: 10px;
 }
 
 .container {
@@ -133,9 +155,15 @@ table {
     border-radius: 1;
 }
 
+input.btn,
 a.btn {
     border-radius: 0;
     font-size: 1.4rem;
     padding: 4px 10px;
     min-width: 64px;
+}
+
+.fh5co-blog .blog-img-holder {
+    background-size: 300%;
+    background-position: top -50px left -280px;
 }

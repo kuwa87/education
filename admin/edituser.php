@@ -52,10 +52,10 @@ $row = $user->get_student_by_loginID($login_id);
             <label for="password">password</label>
             <input type="text" name="password" class="form-control" id="password" value="<?php echo $row['password']; ?>">
             </div>
-            <div class="">
+            <!-- <div class="form-group">
             <label for="password">profilepic</label>
-            <input type="file" name="profilepic" id="profilepic" value="<?php echo $row['profilepic']; ?>">
-            </div>
+            <input type="file" name="profilepic" id="profilepic" value="php echo $row['profilepic']; ?>">
+            </div> -->
             <input type="hidden" name="loginID" value="<?php echo $row['loginID']; ?>">
             <input type="submit" value="submit" name="submit" class="btn btn-primary btn-block">
 
@@ -67,12 +67,12 @@ if (isset($_POST['submit'])) {
     $studentBiography = $_POST['studentBiography'];
     $emailAdress = $_POST['emailAdress'];
     $password = $_POST['password'];
-    $profilepic = $_POST['profilepic'];
+    // $profilepic = $_POST['profilepic'];
     $loginID = $_POST['loginID'];
 
     $user = new User();
 
-    $user->change($loginID, $studentName, $studentAdress, $studentBirthdate, $studentBiography, $emailAdress, $password, $profilepic);
+    $user->change($loginID, $studentName, $studentAdress, $studentBirthdate, $studentBiography, $emailAdress, $password);
 
 }
 ?>

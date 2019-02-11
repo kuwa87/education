@@ -25,7 +25,7 @@ include_once '../classes/Material.php';
 
 <div class="container">
  <div class="table-wrap pt-5 pb-5">
-          <form action="" method="post">
+          <form action="" method="post" enctype="multipart/form-data">
 					<div class="row form-group">
 						<div class="col-md-12 align-items-center">
 							<!-- <label for="name">Name</label> -->
@@ -39,6 +39,15 @@ include_once '../classes/Material.php';
 							<input type="text" name="materialDetails" class="form-control" placeholder="materialDetails">
 						</div>
 					</div>
+				<div class="form-group">
+                <label>Course Picture</label>
+                <input type="file" name="materialimage">
+		        </div>
+				<div class="form-group">
+                <label>Course Picture</label>
+                <input type="file" name="materialcontent">
+		        </div>
+
 					<div class="row form-group">
 						<div class="col-md-12">
 							<select id="course" name="courseID">
@@ -75,8 +84,19 @@ if (isset($_POST['submit'])) {
     $materialName = $_POST['materialName'];
     $materialDetails = $_POST['materialDetails'];
     $courseID = $_POST['courseID'];
+
+    // file upload img
+    $target_dir = "../material_images/";
+    $target_file = $target_dir . basename($_FILES['materialimage']['name']);
+    $tmp_name = $_FILES['materialimage']['tmp_name'];
+
+    // file upload content
+    $content_dir = "../material_contents/";
+    $content_file = $content_dir . basename($_FILES['materialcontent']['name']);
+    $content_tmp_name = $_FILES['materialcontent']['tmp_name'];
+
     $register = new Material;
-    $register->insert($materialName, $materialDetails, $courseID);
+    $register->insert($materialName, $materialDetails, $target_dir, $target_file, $tmp_name, $content_dir, $content_file, $content_tmp_name, $courseID);
 }
 
 ?>

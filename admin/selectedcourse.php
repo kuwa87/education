@@ -39,6 +39,7 @@ echo $row['courseName'];
                     <th>material<br>ID</th>
                     <th>material<br>Name</th>
                     <th>material<br>Details</th>
+                    <th>material<br>Content</th>
                     <th>Course<br>Name</th>
                     <th>action</th>
                 </tr>
@@ -63,6 +64,7 @@ if ($result) {
         echo "<td>" . $row['materialID'] . "</td>";
         echo "<td>" . $row['materialName'] . "</td>";
         echo "<td>" . $row['materialDetails'] . "</td>";
+        echo "<td class='profpic'><a href='../material_contents/" . $row['materialContent'] . " '><img src=../material_contents/" . $row['materialContent'] . " alt=''></a></td>";
         echo "<td>" . $row['courseName'] . "</td>";
         echo "<td>
 <a href='editmaterial.php?materialID=$materialID&action=1' class='btn btn-sm btn-success'>Edit</a> <a href='deleteMaterial.php?materialID=$materialID&action=3' class='btn btn-sm btn-danger text-white'>Delete</a></td>";
@@ -74,7 +76,7 @@ if ($result) {
             </tbody>
         </table>
         <a href="creatematerial.php" class="btn btn-primary">Add Materials</a>
-        <a href="materials.php" class="btn btn-primary">View All Courses</a>
+        <a href="materials.php" class="btn btn-primary">View All Materials</a>
         </div>
 
         </div>

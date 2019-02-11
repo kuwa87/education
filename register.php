@@ -91,10 +91,11 @@ if (isset($_POST['submit'])) {
 //file upload
     $target_dir = "user_images/";
     $target_file = $target_dir . basename($_FILES['profilepic']['name']);
+    $admin_file = $target_dir . basename($_FILES['profilepic']['name']);
     $tmp_name = $_FILES['profilepic']['tmp_name'];
 
     $register = new User;
-    $register->insert($name, $adress, $birthdate, $email, $password, $conpass, $target_dir, $target_file, $tmp_name);
+    $register->insert($name, $adress, $birthdate, $email, $password, $conpass, $target_dir, $target_file, $tmp_name, $admin_file);
 }
 
 ?>

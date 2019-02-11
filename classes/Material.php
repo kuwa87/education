@@ -77,7 +77,7 @@ class material extends Config
     }
 
     //change
-    public function change($materialName, $materialDetails, $materialContent, $courseID, $materialID)
+    public function change($materialName, $materialDetails, $courseID, $materialID)
     {
 
         $sqlFirst = "SELECT * FROM material WHERE materialName = '$materialName' AND materialID!= '$materialID'";
@@ -87,7 +87,7 @@ class material extends Config
             echo 'material_name is already taken.';
         } else {
 
-            $sql = "UPDATE material SET materialName='$materialName', materialDetails='$materialDetails', courseID='$courseID', materialID='$materialID', materialContent='$materialContent' WHERE materialID=$materialID";
+            $sql = "UPDATE material SET materialName='$materialName', materialDetails='$materialDetails', courseID='$courseID', materialID='$materialID' WHERE materialID=$materialID";
 
             $result = $this->conn->query($sql);
 
@@ -115,7 +115,7 @@ class material extends Config
     }
 
     //insert
-    public function insert($materialName, $materialDetails, $target_dir, $target_file, $tmp_name, $courseID)
+    public function insert($materialName, $materialDetails, $target_dir, $target_file, $tmp_name, $content_dir, $content_file, $content_tmp_name, $courseID)
     {
 
         $sqlFirst = "SELECT * FROM material WHERE materialName = '$materialName'";
@@ -124,12 +124,48 @@ class material extends Config
         if ($result->num_rows > 0) {
             echo 'material_name is already taken.';
         } else {
+            if (move_uploaded_file($tmp_name, $target_file) && move_uploaded_file($content_tmp_name, $content_file)) {
+                $sql = "INSERT INTO material(materialName, materialDetails, materialImage, materialContent, courseID) VALUES ('$materialName', '$materialDetails', '$target_file','$content_file','$courseID')";
+                $result = $this->conn->query($sql);
 
-            $sql = "INSERT INTO material(materialName, materialDetails, materialContent, courseID) VALUES ('$materialName', '$materialDetails', '$target_file','$courseID')";
+                if ($result == true) {
+                    $this->redirect_js("materials.php");
+                } else {
+                    echo 'Error in inserting record' . $this->conn->error;
+                }
+            } else {
+                echo 'error';
+                // $sql = "INSERT INTO material(materialName, materialDetails, courseID) VALUES ('$materialName', '$materialDetails', '$courseID')";
+                // $result = $this->conn->query($sql);
+
+                // if ($result == true) {
+                //     $this->redirect_js("materials.php");
+                // } else {
+                //     echo 'Error in inserting record' . $this->conn->error;
+                // }
+            }
+
+        }
+
+    }
+
+    public function insertfile($MaterialName, $target_dir, $target_file, $tmp_name, $materialID)
+    {
+
+        $sqlFirst = "SELECT * FROM material WHERE materialName = '$materialName'";
+        $result = $this->conn->query($sqlFirst);
+
+        if (move_uploaded_file($tmp_name, $target_file)) {
+
+            $sql = "UPDATE material SET materialPicture= '$target_file' WHERE materialID ='$materialID'";
             $result = $this->conn->query($sql);
 
             if ($result == true) {
-                $this->redirect_js("materials.php");
+
+                // echo "<script>location.reload()</script>";
+                // exit;
+
+                $this->redirect_js("editmaterial.php?materialID=$materialID&action=1");
             } else {
                 echo 'Error in inserting record' . $this->conn->error;
             }

@@ -28,6 +28,54 @@ $row = $material->get_material_by_materialID($materialID);
 
 <div class="container">
  <div class="table-wrap pt-5 pb-5">
+	 	            <form action="" method="post" class="p-5" enctype="multipart/form-data">
+
+	    	<div class="form-group editpic">
+				<img class="" src="<?php echo $row['materialImages']; ?>" alt=""><br>
+				        <div class="form-group">
+                <label>Material Images</label>
+                <input type="file" name="materialImages">
+        </div>
+				<input type="submit" value="Save Photo" name="photochange" class="btn btn-primary">
+			</div>
+			<?php
+if (isset($_POST['photochange'])) {
+    $materialName = $row['materialName'];
+
+    // file upload
+    $target_dir = "../material_Imagess/";
+    $target_file = $target_dir . basename($_FILES['materialImages']['name']);
+    $tmp_name = $_FILES['materialImages']['tmp_name'];
+
+    $register = new Material;
+    $register->insertfile($courseName, $target_dir, $target_file, $tmp_name, $materialID);
+}
+?>
+			</form>
+			<form action="" method="post" class="p-5" enctype="multipart/form-data">
+
+	    	<div class="form-group editpic">
+				<img class="" src="<?php echo $row['materialContent']; ?>" alt=""><br>
+				        <div class="form-group">
+                <label>Material Content</label>
+                <input type="file" name="materialContent">
+        </div>
+				<input type="submit" value="Save Photo" name="photochange" class="btn btn-primary">
+			</div>
+			<?php
+if (isset($_POST['photochange'])) {
+    $materialName = $row['materialName'];
+
+    // file upload
+    $target_dir = "../material_contents/";
+    $target_file = $target_dir . basename($_FILES['materialContent']['name']);
+    $tmp_name = $_FILES['materialContent']['tmp_name'];
+
+    $register = new Material;
+    $register->insertfile($courseName, $target_dir, $target_file, $tmp_name, $materialID);
+}
+?>
+			</form>
            <form action="" method="post" class="p-5">
             <div class="form-group">
             <label for="name">name</label>
@@ -40,17 +88,21 @@ $row = $material->get_material_by_materialID($materialID);
 					<div class="row form-group">
 						<div class="col-md-12">
 							<select id="course" name="courseID">
-            					<option value="">select course</option>
+            					<!-- <option value="">select course</option> -->
             <?php
 include_once '../classes/Course.php';
 
 $course = new Course;
 $result = $course->get_course();
-foreach ($result as $row) {
-    $courseID = $row['courseID'];
-    $courseName = $row['courseName'];
-    echo "<option value='$courseID'>$courseName</option>";
-
+foreach ($result as $rows) {
+    $courseID = $rows['courseID'];
+    $courseName = $rows['courseName'];
+    ?>
+   <option value='<?php echo $courseID; ?>'<?php if ($courseID == $row['courseID']) {
+        echo 'selected';
+    }
+    ?>><?php echo $courseName; ?></option>
+<?php
 }
 ?>
            					</select>

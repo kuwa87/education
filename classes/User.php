@@ -51,6 +51,24 @@ class User extends Config
             return $this->conn->error;
         }
     }
+    public function get_teachers()
+    {
+        //query
+        $sql = "SELECT * FROM student INNER JOIN login ON login.loginID = student.loginID WHERE login.status = 'a'";
+        $result = $this->conn->query($sql);
+
+        //initialize an array
+        $rows = array();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
+            return $rows;
+
+        } else {
+            return $this->conn->error;
+        }
+    }
 
     //echo username
     public function echo_student($loginID)
@@ -92,7 +110,7 @@ class User extends Config
     }
 
     //change
-    public function change($loginID, $studentName, $studentAdress, $studentBirthdate, $studentBiography, $emailAdress, $password, $profilepic)
+    public function change($loginID, $studentName, $studentAdress, $studentBirthdate, $studentBiography, $emailAdress, $password)
     {
 
         $sqlFirst = "SELECT * FROM login WHERE emailAdress = '$emailAdress' AND emailAdress!= '$emailAdress'";
@@ -133,7 +151,7 @@ class User extends Config
     }
 
     //insert
-    public function insert($name, $adress, $birthdate, $email, $password, $conpass, $target_dir, $target_file, $tmp_name)
+    public function insert($name, $adress, $birthdate, $email, $password, $conpass, $target_dir, $target_file, $tmp_name, $admin_file)
     {
         if ($password !== $conpass) {
             echo 'Password is not same as confrim password';
@@ -146,7 +164,7 @@ class User extends Config
                 echo 'Email is already taken.';
             } else {
 
-                if (move_uploaded_file($tmp_name, $target_file)) {
+                if (move_uploaded_file($tmp_name, $admin_file)) {
 
                     $sql = "INSERT INTO login(emailAdress,password,status) VALUES ('$email','$password','u')";
                     $result = $this->conn->query($sql);
