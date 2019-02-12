@@ -2,8 +2,7 @@
 session_start();
 include_once '../classes/User.php';
 $user = new User;
-// $user->login_required();
-
+$user->login_required();
 ?>
  <!DOCTYPE HTML>
 <html><head>
@@ -120,7 +119,7 @@ echo $row['studentName'];
 								<li><a href="courses.php">Courses</a></li>
 								<li><a href="materials.php">Materials</a></li>
 								<li class="has-dropdown">
-									<a href="">Select Materials</a>
+									<a href="materials.php">Select Materials</a>
 									<ul class="dropdown">
 										<!-- <li><a href="#design">Web Design</a></li>
 										<li><a href="#commerce">eCommerce</a></li> -->

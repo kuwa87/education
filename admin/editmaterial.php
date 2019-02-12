@@ -31,9 +31,9 @@ $row = $material->get_material_by_materialID($materialID);
 	 	            <form action="" method="post" class="p-5" enctype="multipart/form-data">
 
 	    	<div class="form-group editpic">
-				<img class="" src="<?php echo $row['materialImages']; ?>" alt=""><br>
+				<img class="" src="<?php echo $row['materialImage']; ?>" alt=""><br>
 				        <div class="form-group">
-                <label>Material Images</label>
+                <label>Material Image</label>
                 <input type="file" name="materialImages">
         </div>
 				<input type="submit" value="Save Photo" name="photochange" class="btn btn-primary">
@@ -43,7 +43,7 @@ if (isset($_POST['photochange'])) {
     $materialName = $row['materialName'];
 
     // file upload
-    $target_dir = "../material_Imagess/";
+    $target_dir = "../material_Images/";
     $target_file = $target_dir . basename($_FILES['materialImages']['name']);
     $tmp_name = $_FILES['materialImages']['tmp_name'];
 
@@ -60,10 +60,10 @@ if (isset($_POST['photochange'])) {
                 <label>Material Content</label>
                 <input type="file" name="materialContent">
         </div>
-				<input type="submit" value="Save Photo" name="photochange" class="btn btn-primary">
+				<input type="submit" value="Save Content" name="contentchange" class="btn btn-primary">
 			</div>
 			<?php
-if (isset($_POST['photochange'])) {
+if (isset($_POST['contentchange'])) {
     $materialName = $row['materialName'];
 
     // file upload
@@ -72,7 +72,7 @@ if (isset($_POST['photochange'])) {
     $tmp_name = $_FILES['materialContent']['tmp_name'];
 
     $register = new Material;
-    $register->insertfile($courseName, $target_dir, $target_file, $tmp_name, $materialID);
+    $register->insertfileforContent($courseName, $target_dir, $target_file, $tmp_name, $materialID);
 }
 ?>
 			</form>
@@ -87,6 +87,7 @@ if (isset($_POST['photochange'])) {
             </div>
 					<div class="row form-group">
 						<div class="col-md-12">
+							 <label>Select Course</label><br>
 							<select id="course" name="courseID">
             					<!-- <option value="">select course</option> -->
             <?php
@@ -115,7 +116,8 @@ $material = new Material;
 $row = $material->get_material_by_materialID($materialID);
 
 echo $row['materialID'];?>">
-            <input type="submit" value="submit" name="submit" class="btn btn-primary btn-block">
+            <input type="submit" value="submit" name="submit" class="btn btn-primary">
+			<a href='materials.php' class="btn border border-primary">back to materials</a>
 
             <?php
 if (isset($_POST['submit'])) {

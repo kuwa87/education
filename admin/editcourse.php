@@ -66,13 +66,38 @@ if (isset($_POST['photochange'])) {
             <label for="birthdate">coursePrice</label>
             <input type="text" name="coursePrice" class="form-control" id="coursePrice" value="<?php echo $row['coursePrice']; ?>">
             </div>
-            <div class="form-group">
-            <label for="loginID">Upload by (Auther loginID)</label>
+            <!-- <div class="form-group">
             <input type="text" name="loginID" class="form-control" id="loginID" value="<?php echo $row['loginID']; ?>">
-            </div>
+			</div> -->
+			<div class="row form-group">
+
+						<div class="col-md-12">
+						<label for="loginID">Upload by (Auther loginID)</label><br>
+
+							<select id="loginID" name="loginID">
+            					<!-- <option value="">select course</option> -->
+            <?php
+
+$course = new User;
+$result = $course->get_teachers();
+foreach ($result as $rows) {
+    $loginID = $rows['loginID'];
+    $studentName = $rows['studentName'];
+    ?>
+   <option value='<?php echo $loginID; ?>'<?php if ($loginID == $row['loginID']) {
+        echo 'selected';
+    }
+    ?>><?php echo $studentName; ?></option>
+<?php
+}
+?>
+           					</select>
+						</div>
+					</div>
+
 			<input type="hidden" name="courseID" value="<?php echo $row['courseID']; ?>">
-			<a href='courses.php' class="btn btn-primary">back to courses</a>
             <input type="submit" value="submit" name="submit" class="btn btn-primary">
+			<a href='courses.php' class="btn border border-primary">back to courses</a>
 
             <?php
 if (isset($_POST['submit'])) {

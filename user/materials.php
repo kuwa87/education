@@ -1,5 +1,4 @@
  <?php
-
 include 'common/head.php';
 include '../classes/Material.php';
 
@@ -7,13 +6,14 @@ include '../classes/Material.php';
 	<aside class="not-slide">
 		<div class="flexslider">
 			<ul class="slides">
-		   	<li style="background-image: url(../common/images/img_bg_4.jpg);">
+			   <li style="background-image: url(../common/images/img_bg_4.jpg)">
 		   		<div class="overlay-gradient"></div>
 		   		<div class="container">
 		   			<div class="row">
 			   			<div class="col-md-8 col-md-offset-2 text-center slider-text">
 			   				<div class="slider-text-inner">
 			   					<h1 class="heading-section">All Materials</h1>
+
 			   				</div>
 			   			</div>
 			   		</div>
@@ -23,63 +23,53 @@ include '../classes/Material.php';
 	  	</div>
 	</aside>
 
-<div class="container">
-	<ul class="row course-btn">
-<?php
-$courseselect = new Course;
-$result = $courseselect->get_course();
-foreach ($result as $row) {
-    $courseID = $row['courseID'];
-    $courseName = $row['courseName'];
-    echo "<li class='col-sm-4'><a href='selectedcourse.php?courseID=$courseID'><span>" . $row['courseName'] . "</span></a></li>";
-}
-?>
-</ul>
+			<div class="container">
+				<div class="col-lg-12 col-md-12">
 
- <div class="table-wrap pt-5 pb-5 wide-table">
-                 <table class="table">
-            <thead>
-                <tr>
-                    <th>material<br>ID</th>
-                    <th>material<br>Name</th>
-                    <th>material<br>Details</th>
-                    <th>Material<br>Image</th>
-                    <th>Material<br>Content</th>
-                    <th>Course<br>Name</th>
-                    <th>action</th>
-                </tr>
-            </thead>
-            <tbody>
-<?php
-// $loginID = $_SESSION['loginID'];
+					<div>Materials</div>
 
+
+<div class="accordion" id="accordionExample">
+		<ul class="usermaterial">
+<?php
 $material = new Material;
 $result = $material->get_material();
+
 // print_r($result);
 
 if ($result) {
+    $i = 1;
     foreach ($result as $row) {
         $materialID = $row['materialID'];
 
-        echo "<tr>";
-        echo "<td>" . $row['materialID'] . "</td>";
-        echo "<td>" . $row['materialName'] . "</td>";
-        echo "<td>" . $row['materialDetails'] . "</td>";
-        echo "<td class='profpic'><img src=../material_images/" . $row['materialImage'] . " alt=''><br></td>";
-        echo "<td class='profpic'><a href='../material_contents/" . $row['materialContent'] . " ' target='_blank'>View<br>Content</a></td>";
-        echo "<td>" . $row['courseName'] . "</td>";
-        echo "<td>
-<a href='editmaterial.php?materialID=$materialID&action=1' class='btn btn-sm btn-success'>Edit</a> <a href='deleteMaterial.php?materialID=$materialID&action=3' class='btn btn-sm btn-danger text-white'>Delete</a></td>";
-        echo "</tr>";
+        echo '<li class="usermaterial-card card">
+    <div class="card-header" id="heading' . $i . '">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse' . $i . '" aria-expanded="false" aria-controls="collapse' . $i . '">';
+
+        echo $row['materialName'];
+        echo '</button>
+    </div>
+    <div id="collapse' . $i . '" class="collapse" aria-labelledby="heading' . $i . '" data-parent="#accordionExample">
+	  <div class="card-body">';
+        echo "<img src=../material_images/" . $row['materialImage'] . " alt=''><br><p>" . $row['materialDetails'];
+        echo '</p>
+										<a href="course.php" class="btn btn-primary btn-lg btn-reg">Download</a>
+</div>
+    </div>
+ </li>';
+        $i++;
+
     }
 }
-
 ?>
-            </tbody>
-        </table>
-        <a href="creatematerial.php" class="btn btn-primary">Add Materials</a>
-        </div>
-        </div>
+
+
+</ul>
+			</div>
+								<a href="course.php" class="btn btn-primary btn-lg btn-reg">Enroll</a>
+								<a href="course.php" class="btn border-primary btn-lg btn-reg">Enrolled</a>
+
+		</div>
 
 <footer>
 			<div class="container">
@@ -89,11 +79,9 @@ if ($result) {
 							<small class="block">&copy; 2016 Free HTML5. All Rights Reserved.</small>
 						</p>
 					</div>
-					</div>
 				</div>
 		</footer>
 	</div>
-
 
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>

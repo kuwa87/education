@@ -5,6 +5,7 @@ class User extends Config
 {
 
     //login
+
     public function login($email, $password)
     {
         // $sql = "SELECT * FROM student WHERE loginID = '$loginID' AND password = '$password'";
@@ -51,6 +52,8 @@ class User extends Config
             return $this->conn->error;
         }
     }
+
+    //get teachers
     public function get_teachers()
     {
         //query
@@ -199,17 +202,20 @@ class User extends Config
     public function login_required()
     {
         // session_start();
-        if ($_SESSION['loginID'] == false) {
+        if (!isset($_SESSION['loginID'])) {
             // header('Location: ../login.php');
             $this->redirect_js('../login.php');
 
+        } else {
+            // echo 'Error in inserting record' . $this->conn->error;
         }
     }
 
+    //loged in
     public function logged_in()
     {
         // session_start();
-        if (isset($_SESSION['emailAdress'])) {
+        if (isset($_SESSION['loginID'])) {
             // header('Location: javascript://history.go(-1)');
             $this->redirect_js('javascript:history.go(-1)');
             //「://」が削除された理由・・・上記のコードはすでにJSであるから。
@@ -219,16 +225,7 @@ class User extends Config
         }
     }
 
-    //login_required
-    // public function login_required()
-    // {
-    //     session_start();
-    //     if ($_SESSION['loginID']) {
-    //         header('Location: ' . $_SERVER['REQUEST_URI']);
-    //     } else {
-    //         header('Location: ../login.php');
-    //     }
-    // }
+    //insertfile
     public function insertfile($studentName, $target_dir, $target_file, $admin_file, $tmp_name, $loginID)
     {
 
@@ -250,6 +247,24 @@ class User extends Config
                 echo 'Error in inserting record' . $this->conn->error;
             }
 
+        }
+
+    }
+
+    // User course functions
+
+    //course_enroll (similar to insert)
+    public function course_enroll($studentID, $courseID)
+    {
+
+        $sql = "INSERT INTO usercourse(studentID,courseID) VALUES ('$studentID','$courseID')";
+        $result = $this->conn->query($sql);
+
+        if ($result) {
+
+            echo "<script>window.location.replace('index.php')</script>";
+        } else {
+            echo 'error';
         }
 
     }

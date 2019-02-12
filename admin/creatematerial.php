@@ -77,6 +77,7 @@ foreach ($result as $row) {
 
 					<div class="form-group">
 						<input type="submit" name="submit" value="Sign Up" class="btn btn-primary">
+						<a href='materials.php' class="btn border border-primary">back to materials</a>
 					</div>
 				</form>
 				<?php

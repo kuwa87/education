@@ -54,7 +54,7 @@ include_once 'common/head.php';
 		<div class="row form-group">
 			<div class="col-md-12">
 			<select id="auther" name="courseID">
-            <option value="">Upload by</option>
+            <!-- <option value="">Upload by</option> -->
             <?php
 // $course = new Course;
 $result = $user->get_teachers();
@@ -71,6 +71,7 @@ foreach ($result as $row) {
 
 					<div class="form-group">
 						<input type="submit" name="submit" value="Sign Up" class="btn btn-primary">
+						<a href='courses.php' class="btn border border-primary">back to courses</a>
 					</div>
 				</form>
 				<?php

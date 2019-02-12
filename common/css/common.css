@@ -27,6 +27,7 @@ footer p {
     min-height: 200px;
     background-image: url(images/img_bg_4.jpg);
     display: block;
+    background-size: cover;
 }
 
 .not-slide .flexslider .slides li:after {
@@ -166,4 +167,69 @@ a.btn {
 .fh5co-blog .blog-img-holder {
     background-size: 300%;
     background-position: top -50px left -280px;
+}
+
+.btn.border-primary {
+    border: 1px solid #007bff;
+}
+
+/* user */
+.usermaterial {
+    padding: 0;
+
+}
+
+.usermaterial-card {
+    margin-bottom: 20px;
+    border: 1px solid #999;
+    list-style: none;
+}
+
+.usermaterial-card button.btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    border-radius: 0;
+    margin-bottom: 0;
+    text-decoration: none;
+}
+
+.usermaterial-card button.btn:hover {
+    color: #fff;
+    background-color: #2d6cdf;
+}
+
+.usermaterial-card .card-body {
+    padding: 20px;
+}
+
+.usermaterial-card img {
+    max-width: 350px;
+    width: 100%;
+}
+
+
+/* heading */
+.heading-section {
+    position: relative;
+}
+
+.heading-section span.price {
+    display: block;
+    position: absolute;
+    font-size: 1.6rem;
+    top: -40px;
+    right: 20px;
+}
+
+p.details {
+    display: block;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    /* text-align: center; */
+}
+
+p.details img {
+    display: block;
+    width: 100%;
 }

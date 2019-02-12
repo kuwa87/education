@@ -157,7 +157,31 @@ class material extends Config
 
         if (move_uploaded_file($tmp_name, $target_file)) {
 
-            $sql = "UPDATE material SET materialPicture= '$target_file' WHERE materialID ='$materialID'";
+            $sql = "UPDATE material SET materialImage= '$target_file' WHERE materialID ='$materialID'";
+            $result = $this->conn->query($sql);
+
+            if ($result == true) {
+
+                // echo "<script>location.reload()</script>";
+                // exit;
+
+                $this->redirect_js("editmaterial.php?materialID=$materialID&action=1");
+            } else {
+                echo 'Error in inserting record' . $this->conn->error;
+            }
+
+        }
+
+    }
+    public function insertfileforContent($MaterialName, $target_dir, $target_file, $tmp_name, $materialID)
+    {
+
+        $sqlFirst = "SELECT * FROM material WHERE materialName = '$materialName'";
+        $result = $this->conn->query($sqlFirst);
+
+        if (move_uploaded_file($tmp_name, $target_file)) {
+
+            $sql = "UPDATE material SET materialContent= '$target_file' WHERE materialID ='$materialID'";
             $result = $this->conn->query($sql);
 
             if ($result == true) {

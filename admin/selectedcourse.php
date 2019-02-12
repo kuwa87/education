@@ -32,6 +32,18 @@ echo $row['courseName'];
 	</aside>
 
 <div class="container">
+	<ul class="row course-btn">
+		        <li class='col-sm-4'><a href="materials.php"><span>View All Materials</span></a></li>
+<?php
+$courseselect = new Course;
+$result = $courseselect->get_course();
+foreach ($result as $row) {
+    $courseID = $row['courseID'];
+    $courseName = $row['courseName'];
+    echo "<li class='col-sm-4'><a href='selectedcourse.php?courseID=$courseID'><span>" . $row['courseName'] . "</span></a></li>";
+}
+?>
+</ul>
  <div class="table-wrap pt-5 pb-5 wide-table">
                  <table class="table">
             <thead>
@@ -39,6 +51,7 @@ echo $row['courseName'];
                     <th>material<br>ID</th>
                     <th>material<br>Name</th>
                     <th>material<br>Details</th>
+                    <th>material<br>Image</th>
                     <th>material<br>Content</th>
                     <th>Course<br>Name</th>
                     <th>action</th>
@@ -64,7 +77,8 @@ if ($result) {
         echo "<td>" . $row['materialID'] . "</td>";
         echo "<td>" . $row['materialName'] . "</td>";
         echo "<td>" . $row['materialDetails'] . "</td>";
-        echo "<td class='profpic'><a href='../material_contents/" . $row['materialContent'] . " '><img src=../material_contents/" . $row['materialContent'] . " alt=''></a></td>";
+        echo "<td class='profpic'><img src=../material_images/" . $row['materialImage'] . " alt=''></td>";
+        echo "<td class='profpic'><a href='../material_contents/" . $row['materialContent'] . " '>View<br>Content</a></td>";
         echo "<td>" . $row['courseName'] . "</td>";
         echo "<td>
 <a href='editmaterial.php?materialID=$materialID&action=1' class='btn btn-sm btn-success'>Edit</a> <a href='deleteMaterial.php?materialID=$materialID&action=3' class='btn btn-sm btn-danger text-white'>Delete</a></td>";
@@ -76,7 +90,6 @@ if ($result) {
             </tbody>
         </table>
         <a href="creatematerial.php" class="btn btn-primary">Add Materials</a>
-        <a href="materials.php" class="btn btn-primary">View All Materials</a>
         </div>
 
         </div>

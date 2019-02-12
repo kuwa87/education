@@ -19,12 +19,13 @@ class Config
         }
     }
 
-    // public function redirect($url){
-    //     #ob_clean - remove all output before header
-    //     ob_clean();
-    //     header("Location: $url");
-    //     exit;
-    // }
+    public function redirect($url)
+    {
+        #ob_clean - remove all output before header
+        ob_clean();
+        header("Location: $url");
+        exit;
+    }
 
     public function redirect_js($url)
     {
@@ -32,4 +33,5 @@ class Config
         echo "<script>window.location.href='$url';</script>";
         exit;
     }
+
 }

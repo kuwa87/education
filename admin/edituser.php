@@ -82,8 +82,9 @@ if (isset($_POST['photochange'])) {
             <label for="password">profilepic</label>
             <input type="file" name="profilepic" id="profilepic" value="php echo $row['profilepic']; ?>">
             </div> -->
-            <input type="hidden" name="loginID" value="<?php echo $row['loginID']; ?>">
-            <input type="submit" value="submit" name="submit" class="btn btn-primary btn-block">
+			<input type="hidden" name="loginID" value="<?php echo $row['loginID']; ?>">
+            <input type="submit" value="submit" name="submit" class="btn btn-primary">
+			<a href='index.php' class="btn border border-primary">back to home(users)</a>
 
             <?php
 if (isset($_POST['submit'])) {

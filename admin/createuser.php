@@ -73,6 +73,7 @@ include 'common/head.php';
             </div>
 					<div class="form-group">
 						<input type="submit" name="submit" value="Sign Up" class="btn btn-primary">
+						<a href='index.php' class="btn border border-primary">back to home(users)</a>
 					</div>
 				</form>
 				<?php
