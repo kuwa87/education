@@ -262,7 +262,7 @@ class User extends Config
 
         if ($result) {
 
-            echo "<script>window.location.replace('index.php')</script>";
+            // echo "<script>window.location.replace('index.php')</script>";
         } else {
             echo 'error';
         }
