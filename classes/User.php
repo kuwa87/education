@@ -261,8 +261,9 @@ class User extends Config
         $result = $this->conn->query($sql);
 
         if ($result) {
+            $this->redirect_js('javascript:history.go(-1)');
 
-            echo "<script>window.location.replace('courses.php')</script>";
+            // echo "<script>window.location.replace('courses.php')</script>";
         } else {
             echo 'error';
         }

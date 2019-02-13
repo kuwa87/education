@@ -61,51 +61,48 @@ echo $row['courseDetails'];
 <div class="accordion" id="accordionExample">
 		<ul class="usermaterial">
 <?php
-
-$course = new Material;
-$courseID = $_GET['courseID'];
-$result = $course->get_material_by_course($courseID);
-
-// print_r($result);
-
-if ($result) {
-    $i = 1;
-    foreach ($result as $row) {
-        $materialID = $row['materialID'];
-
-        echo '<li class="usermaterial-card card">
-    <div class="card-header" id="heading' . $i . '">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse' . $i . '" aria-expanded="false" aria-controls="collapse' . $i . '">';
-
-        echo $row['materialName'];
-        echo '</button>
-    </div>
-    <div id="collapse' . $i . '" class="collapse" aria-labelledby="heading' . $i . '" data-parent="#accordionExample">
-	  <div class="card-body">';
-        echo "<img src=../material_images/" . $row['materialImage'] . " alt=''><br><p>" . $row['materialDetails'];
-        echo '</p>
-										<a href="course.php" class="btn btn-primary btn-lg btn-reg">Download</a>
-</div>
-    </div>
- </li>';
-        $i++;
-
-    }
-}
-?>
-
-
-</ul>
-			</div>
-			<?php
 $courseID = $row['courseID'];
 $studentID = $_SESSION['studentID'];
 $result = $user->get_course_not_enrolled($studentID, $courseID);
 
 if ($result) {
+
     echo "<a href='course_enroll.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>Enroll</a>";
 
 } else {
+
+    $course = new Material;
+    $courseID = $_GET['courseID'];
+    $result = $course->get_material_by_course($courseID);
+
+// print_r($result);
+
+    if ($result) {
+        $i = 1;
+        foreach ($result as $row) {
+            $materialID = $row['materialID'];
+
+            echo '<li class="usermaterial-card card">
+    <div class="card-header" id="heading' . $i . '">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse' . $i . '" aria-expanded="false" aria-controls="collapse' . $i . '">';
+
+            echo $row['materialName'];
+            echo '</button>
+    </div>
+    <div id="collapse' . $i . '" class="collapse" aria-labelledby="heading' . $i . '" data-parent="#accordionExample">
+	  <div class="card-body">';
+            echo "<img src=../material_images/" . $row['materialImage'] . " alt=''><br><p>" . $row['materialDetails'];
+            echo '</p>
+										<a href="course.php" class="btn btn-primary btn-lg btn-reg">Download</a>
+</div>
+    </div>
+ </li>';
+            $i++;
+
+        }
+        echo '</ul></div>';
+    }
+
     $c = $user->enrolled_course_index($courseID);
     $courseID = $row['courseID'];
     $ucID = $c['ucID'];
