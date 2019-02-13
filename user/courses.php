@@ -27,14 +27,15 @@ include 'common/head.php';
 <div class="row">
 <?php
 
-$course = new Course;
-$result = $course->get_course();
+$course = new User;
+$result = $course->enrolled_course($courseID);
 
 // print_r($result);
 
 if ($result) {
     foreach ($result as $row) {
         $courseID = $row['courseID'];
+        $ucID = $row['ucID'];
 
         echo "<div class='col-sm-4 col-md-4'>";
         echo "<div class='fh5co-blog animate-box'>";
@@ -45,11 +46,16 @@ if ($result) {
         echo "<span class='posted_on'>Price: " . $row['coursePrice'] . " PHP</span>";
         echo "<span class='comment'><a href=''>21<i class='icon-speech-bubble'></i></a></span>";
         echo "<p>" . $row['courseDetails'] . "</p>";
-        echo "<a href='course.php' class='btn border-primary btn-lg btn-reg'>Enrolled</a></div></div></div>";
+        echo "<a href='course_unenroll.php?ucID=$ucID' class='btn border-primary btn-lg btn-reg'>Unenroll</a></div></div></div>";
 
     }
+} else {
+    echo "<div class='col-sm-12 col-md-4'><p>You haven't enrolled yet</p></div>";
 }
+
 ?>
+								<div class='col-sm-12 col-md-4'><a href="index.php" class="btn btn-primary btn-lg btn-reg">See All Couses</a></div>
+
 
 </div>
 

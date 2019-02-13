@@ -262,9 +262,109 @@ class User extends Config
 
         if ($result) {
 
-            // echo "<script>window.location.replace('index.php')</script>";
+            echo "<script>window.location.replace('courses.php')</script>";
         } else {
             echo 'error';
+        }
+
+    }
+
+    //enrolled_corse
+    public function enrolled_course($courseID)
+    {
+        //query
+        $loginID = $_SESSION['loginID'];
+        $sql = "SELECT * FROM usercourse
+                INNER JOIN student ON usercourse.studentID = student.studentID
+                INNER JOIN course ON course.courseID = usercourse.courseID
+                WHERE student.loginID = '$loginID'";
+        $result = $this->conn->query($sql);
+
+        //initialize an array
+        $rows = array();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
+            return $rows;
+
+        } else {
+            return $this->conn->error;
+        }
+
+    }
+    //remove_enroll
+    public function remove_enroll($ucID)
+    {
+
+        $sql = "DELETE FROM usercourse WHERE ucID=$ucID";
+        $result = $this->conn->query($sql);
+
+        if ($result) {
+            $this->redirect_js('javascript:history.go(-1)');
+
+            // echo "<script>window.location.replace('courses.php')</script>";
+        } else {
+            echo "Error: " . $this->conn->error;
+        }
+    }
+
+    //enrolled_corse
+    public function get_course_not_enrolled($studentID, $courseID)
+    {
+        //query
+
+        $sql = "SELECT * FROM course WHERE courseID = $courseID AND courseID NOT IN
+                (SELECT courseID FROM usercourse WHERE studentID = $studentID AND courseID = $courseID)";
+        $result = $this->conn->query($sql);
+        //initialize an array
+        $rows = array();
+        if ($result->num_rows == 0) {
+            return false;
+
+        } else {
+            return true;
+        }
+
+    }
+
+    public function get_all_courses($studentID)
+    {
+        $sql = "SELECT * FROM course INNER JOIN usercourse ON course.courseID = usercourse.courseID
+                ";
+        $result = $this->conn->query($sql);
+        //initialize an array
+        $rows = array();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
+            return $rows;
+
+        } else {
+            return $this->conn->error;
+        }
+
+    }
+
+    //index
+    public function enrolled_course_index($courseID)
+    {
+        //query
+        $loginID = $_SESSION['loginID'];
+        $sql = "SELECT * FROM usercourse
+                INNER JOIN student ON usercourse.studentID = student.studentID
+                INNER JOIN course ON course.courseID = usercourse.courseID
+                WHERE student.loginID = $loginID AND usercourse.courseID = $courseID";
+        $result = $this->conn->query($sql);
+
+        //initialize an array
+        $rows = array();
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc();
+
+        } else {
+            return $this->conn->error;
         }
 
     }

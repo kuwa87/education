@@ -27,6 +27,7 @@ include 'common/head.php';
 <div class="row">
 <?php
 
+$studentID = $_SESSION['studentID'];
 $course = new Course;
 $result = $course->get_course();
 
@@ -45,8 +46,21 @@ if ($result) {
         echo "<span class='posted_on'>Price: " . $row['coursePrice'] . "PHP</span>";
         echo "<span class='comment'><a href=''>21<i class='icon-speech-bubble'></i></a></span>";
         echo "<p>" . $row['courseDetails'] . "</p>";
-        echo "<a href='course_enroll.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>Enroll</a><a href='course.php' class='btn border-primary btn-lg btn-reg'>Enrolled</a></div></div>
-</div>";
+        $result = $user->get_course_not_enrolled($studentID, $courseID);
+
+        if ($result) {
+            echo "<a href='course_enroll.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>Enroll</a>";
+
+        } else {
+            $c = $user->enrolled_course_index($courseID);
+            $courseID = $row['courseID'];
+            $ucID = $c['ucID'];
+            // print_r($c);
+            echo "<a href='course_unenroll.php?ucID=$ucID' class='btn border-primary btn-lg btn-reg'>Unenroll</a>";
+
+        }
+
+        echo "</div></div></div>";
 
     }
 }

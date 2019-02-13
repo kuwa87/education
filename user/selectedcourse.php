@@ -97,8 +97,28 @@ if ($result) {
 
 </ul>
 			</div>
-								<a href="course.php" class="btn btn-primary btn-lg btn-reg">Enroll</a>
-								<a href="course.php" class="btn border-primary btn-lg btn-reg">Enrolled</a>
+			<?php
+$courseID = $row['courseID'];
+$studentID = $_SESSION['studentID'];
+$result = $user->get_course_not_enrolled($studentID, $courseID);
+
+if ($result) {
+    echo "<a href='course_enroll.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>Enroll</a>";
+
+} else {
+    $c = $user->enrolled_course_index($courseID);
+    $courseID = $row['courseID'];
+    $ucID = $c['ucID'];
+    // print_r($c);
+    echo "<a href='course_unenroll.php?ucID=$ucID' class='btn border-primary btn-lg btn-reg'>Unenroll</a>";
+
+}
+
+echo "</div></div></div>";
+
+?>
+								<!-- <a href="course.php" class="btn btn-primary btn-lg btn-reg">Enroll</a>
+								<a href="course.php" class="btn border-primary btn-lg btn-reg">Enrolled</a> -->
 
 		</div>
 

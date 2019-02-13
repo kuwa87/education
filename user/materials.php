@@ -66,9 +66,6 @@ if ($result) {
 
 </ul>
 			</div>
-								<a href="course.php" class="btn btn-primary btn-lg btn-reg">Enroll</a>
-								<a href="course.php" class="btn border-primary btn-lg btn-reg">Enrolled</a>
-
 		</div>
 
 <footer>
