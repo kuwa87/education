@@ -233,3 +233,47 @@ p.details img {
     display: block;
     width: 100%;
 }
+
+/* selected course */
+
+.usermaterial {
+    position: relative;
+}
+
+.usermaterial .status {
+    position: absolute;
+    top: 8px;
+    right: 20px;
+    display: block;
+    z-index: 100;
+    background-color: #fff;
+    padding: 0 10px;
+    border: 1px solid
+}
+
+.usermaterial .status:hover {
+    color: #fff;
+    background-color: #2d6cdf;
+
+}
+
+.usermaterial .status i {
+    margin-left: 4px;
+    display: inline-block;
+
+}
+
+.usermaterial .status.notyet i {
+    color: rgba(45, 108, 223, 0.3);
+}
+
+.usermaterial .status.notyet:hover i {
+    color: #fff;
+}
+
+.usermaterial .status.done i {
+    margin-left: 4px;
+    display: inline-block;
+    color: #fff;
+    background-color: rgba(45, 108, 223, 1);
+}

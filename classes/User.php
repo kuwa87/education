@@ -9,12 +9,14 @@ class User extends Config
     public function login($email, $password)
     {
         // $sql = "SELECT * FROM student WHERE loginID = '$loginID' AND password = '$password'";
-        $sql = "SELECT * FROM login WHERE emailAdress = '$email' AND password = '$password'";
+        // $sql = "SELECT * FROM login WHERE emailAdress = '$email' AND password = '$password'";
+        $sql = "SELECT * FROM student INNER JOIN login ON login.loginID = student.loginID WHERE login.emailAdress = '$email' AND login.password = '$password'";
         $result = $this->conn->query($sql);
 
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $_SESSION['loginID'] = $row['loginID'];
+            $_SESSION['studentID'] = $row['studentID'];
 
             if ($result->num_rows > 0) {
                 if ($row['status'] == 'a') {
@@ -253,19 +255,31 @@ class User extends Config
 
     // User course functions
 
-    //course_enroll (similar to insert)
+    //course_enroll (similar to insert) after insertd, it will also add the usermaterial table
     public function course_enroll($studentID, $courseID)
     {
 
-        $sql = "INSERT INTO usercourse(studentID,courseID) VALUES ('$studentID','$courseID')";
+        $sql = "INSERT INTO usercourse(studentID,courseID,status) VALUES ('$studentID','$courseID','studying')";
         $result = $this->conn->query($sql);
 
         if ($result) {
-            $this->redirect_js('javascript:history.go(-1)');
 
-            // echo "<script>window.location.replace('courses.php')</script>";
-        } else {
-            echo 'error';
+            $ucID = $this->conn->insert_id;
+            $sqlm = "SELECT * FROM material INNER JOIN usercourse ON material.courseID = usercourse.courseID WHERE usercourse.ucID = $ucID";
+            $resultm = $this->conn->query($sqlm);
+            while ($row = $resultm->fetch_assoc()) {
+                $materialID = $row['materialID'];
+                $sql = "INSERT INTO usermaterial(ucID,materialID,status) VALUES ('$ucID','$materialID','studying')";
+                $result = $this->conn->query($sql);
+
+            }
+            if ($result) {
+                $this->redirect_js('javascript:history.go(-1)');
+
+            } else {
+                echo 'error';
+            }
+
         }
 
     }
@@ -368,6 +382,69 @@ class User extends Config
             return $this->conn->error;
         }
 
+    }
+
+    //change the status of usermaterial
+    // public function get_and_change_material_status($umID, $ucID)
+    // {
+    //     $sql = "SELECT * FROM usermaterial INNER JOIN usercourse ON usermaterial.ucID = usercourse.ucID";
+    //     $result = $this->conn->query($sql);
+
+    //     $sql = "UPDATE usermaterial SET status='$status' WHERE umID='$umID'";
+
+    //     $result = $this->conn->query($sql);
+
+    //     if ($result) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+
+    //get usermaterial
+    public function get_usercourse_material($courseID, $studentID)
+    {
+        $sql = "SELECT * FROM material
+        INNER JOIN usercourse ON material.courseID = usercourse.courseID
+        INNER JOIN usermaterial ON usercourse.ucID = usermaterial.ucID
+        WHERE usercourse.courseID = $courseID AND usercourse.studentID = $studentID";
+        $result = $this->conn->query($sql);
+
+        $rows = array();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
+            return $rows;
+
+        } else {
+            return $this->conn->error;
+        }
+
+    }
+
+    // change the status of usermaterial
+    public function change_material_status($umID, $ucID)
+    {
+        $sql = "SELECT * FROM usermaterial WHERE ucID = $ucID AND status = 'studying'";
+        $result = $this->conn->query($sql);
+
+        if ($result->num_rows > 0) {
+
+            if ($row['status'] = 'studying') {
+                $sql = "UPDATE usermaterial SET status='finished' WHERE umID='$umID'";
+                $result = $this->conn->query($sql);
+                $this->redirect_js('javascript:history.go(-1)');
+            } else {
+                $sql = "UPDATE usermaterial SET status='studying' WHERE umID='$umID'";
+                $result = $this->conn->query($sql);
+                $this->redirect_js('javascript:history.go(-1)');
+
+            }
+
+        } else {
+            return false;
+        }
     }
 
 }

@@ -1,66 +1,70 @@
- <?php
+<?php
 include 'common/head.php';
 include '../classes/Material.php';
+include_once '../classes/Course.php';
 
 ?>
-	<aside class="not-slide">
-		<div class="flexslider">
-			<ul class="slides">
-			   <li style="background-image: <?php
+<aside class="not-slide">
+	<div class="flexslider">
+		<ul class="slides">
+			<li style="background-image: <?php
 $course = new Course;
 $courseID = $_GET['courseID'];
 $row = $course->get_course_by_courseID($courseID);
 
 echo 'url(' . $row['coursePicture'] . ')';?>
 ;">
-		   		<div class="overlay-gradient"></div>
-		   		<div class="container">
-		   			<div class="row">
-			   			<div class="col-md-8 col-md-offset-2 text-center slider-text">
-			   				<div class="slider-text-inner">
-			   					<h1 class="heading-section">
-								   <?php
+				<div class="overlay-gradient"></div>
+				<div class="container">
+					<div class="row">
+						<div class="col-md-8 col-md-offset-2 text-center slider-text">
+							<div class="slider-text-inner">
+								<h1 class="heading-section">
+									<?php
 echo $row['courseName'];
 
 ?> Course<br>
-<span class="price">
-					 Price: <?php
+									<span class="price">
+										Price:
+										<?php
 echo $row['coursePrice'];
 
 ?>PHP</span>
-</h1>
+								</h1>
 
-			   				</div>
-			   			</div>
-			   		</div>
-		   		</div>
-		   	</li>
-		  	</ul>
-	  	</div>
-	</aside>
-
-			<div class="container">
-				<div class="col-lg-12 col-md-12">
-					<div class="fh5co-blog animate-box">
-
-						<div class="blog-text">
-							<h3><?php
-echo $row['courseName'];
-?>
-</h3>
-							<p><?php
-echo $row['courseDetails'];
-?>
-</span>
-</p>
+							</div>
 						</div>
 					</div>
-					<div>Materials</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</aside>
+
+<div class="container">
+	<div class="col-lg-12 col-md-12">
+		<div class="fh5co-blog animate-box">
+
+			<div class="blog-text">
+				<h3>
+					<?php
+echo $row['courseName'];
+?>
+				</h3>
+				<p>
+					<?php
+echo $row['courseDetails'];
+?>
+					</span>
+				</p>
+			</div>
+		</div>
+		<div>Materials</div>
 
 
-<div class="accordion" id="accordionExample">
-		<ul class="usermaterial">
-<?php
+		<div class="accordion" id="accordionExample">
+			<ul class="usermaterial">
+				<?php
 $courseID = $row['courseID'];
 $studentID = $_SESSION['studentID'];
 $result = $user->get_course_not_enrolled($studentID, $courseID);
@@ -71,11 +75,11 @@ if ($result) {
 
 } else {
 
-    $course = new Material;
+    $course = new User;
     $courseID = $_GET['courseID'];
-    $result = $course->get_material_by_course($courseID);
+    $result = $course->get_usercourse_material($courseID, $studentID);
 
-// print_r($result);
+    // print_r($result);
 
     if ($result) {
         $i = 1;
@@ -83,8 +87,16 @@ if ($result) {
             $materialID = $row['materialID'];
 
             echo '<li class="usermaterial-card card">
-    <div class="card-header" id="heading' . $i . '">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse' . $i . '" aria-expanded="false" aria-controls="collapse' . $i . '">';
+	<div class="card-header" id="heading' . $i . '">';
+
+            if ($row['status'] == 'studying') {
+                echo '<a href="change_materialstatus.php" class="status notyet">finish<i class="fas fa-check"></i></a>';
+            } else {
+
+                echo '<a href="#" class="status">finished<i class="fas fa-check"></i></a>';
+            }
+
+            echo '<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse' . $i . '" aria-expanded="false" aria-controls="collapse' . $i . '">';
 
             echo $row['materialName'];
             echo '</button>
@@ -92,11 +104,8 @@ if ($result) {
     <div id="collapse' . $i . '" class="collapse" aria-labelledby="heading' . $i . '" data-parent="#accordionExample">
 	  <div class="card-body">';
             echo "<img src=../material_images/" . $row['materialImage'] . " alt=''><br><p>" . $row['materialDetails'];
-            echo '</p>
-										<a href="course.php" class="btn btn-primary btn-lg btn-reg">Download</a>
-</div>
-    </div>
- </li>';
+            echo '</p><a href="material_detail.php?ucID=$ucID" class="btn btn-primary btn-lg btn-reg">View</a>';
+            echo '</div></div></li>';
             $i++;
 
         }
@@ -114,12 +123,12 @@ if ($result) {
 echo "</div></div></div>";
 
 ?>
-								<!-- <a href="course.php" class="btn btn-primary btn-lg btn-reg">Enroll</a>
+				<!-- <a href="course.php" class="btn btn-primary btn-lg btn-reg">Enroll</a>
 								<a href="course.php" class="btn border-primary btn-lg btn-reg">Enrolled</a> -->
 
 		</div>
 
-<footer>
+		<footer>
 			<div class="container">
 				<div class="row copyright">
 					<div class="col-md-12 text-center p-5">
@@ -158,6 +167,6 @@ echo "</div></div></div>";
 	<!-- <script src="../common/js/simplyCountdown.js"></script> -->
 	<!-- Main -->
 	<script src="../common/js/main.js"></script>
-</body>
+	</body>
 
-</html>
+	</html>

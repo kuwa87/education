@@ -1,7 +1,7 @@
  <?php
 
 include 'common/head.php';
-// include '../classes/Course.php';
+include '../classes/Course.php';
 
 ?>
 	<aside class="not-slide">

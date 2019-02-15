@@ -42,6 +42,7 @@ $user->login_required();
 
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
 	<!-- Animate.css -->
 	<link rel="stylesheet" href="../common/css/animate.css">
@@ -98,7 +99,6 @@ $user->login_required();
 								<li>Welcome
 								<?php
 $loginID = $_SESSION['loginID'];
-$user = new User;
 $row = $user->echo_student($loginID);
 echo $row['studentName'];
 
@@ -118,21 +118,29 @@ echo $row['studentName'];
 							<ul>
 								<li><a href="index.php">Home</a></li>
 								<li><a href="courses.php">My Courses</a></li>
-								<li><a href="materials.php">Materials</a></li>
+								<!-- <li><a href="materials.php">Materials</a></li> -->
 								<li class="has-dropdown">
 									<a href="">Select Materials</a>
 									<ul class="dropdown">
 										<!-- <li><a href="#design">Web Design</a></li>
 										<li><a href="#commerce">eCommerce</a></li> -->
 										<?php
-include_once '../classes/Course.php';
-$course = new Course;
-$result = $course->get_course();
+$course = new User;
+$studentID = $row['studentID'];
+$result = $course->enrolled_course($studentID);
 foreach ($result as $row) {
     $courseID = $row['courseID'];
     $courseName = $row['courseName'];
     echo "<li><a class='dropdown-item' href='selectedcourse.php?courseID=$courseID'>" . $row['courseName'] . "</a></li>";
 }
+// include_once '../classes/Course.php';
+// $course = new Course;
+// $result = $course->get_course();
+// foreach ($result as $row) {
+//     $courseID = $row['courseID'];
+//     $courseName = $row['courseName'];
+//     echo "<li><a class='dropdown-item' href='selectedcourse.php?courseID=$courseID'>" . $row['courseName'] . "</a></li>";
+// }
 ?>
 									</ul>
 								</li>
