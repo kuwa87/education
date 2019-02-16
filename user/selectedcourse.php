@@ -85,15 +85,44 @@ if ($result) {
         $i = 1;
         foreach ($result as $row) {
             $materialID = $row['materialID'];
+            $ucID = $row['ucID'];
 
             echo '<li class="usermaterial-card card">
 	<div class="card-header" id="heading' . $i . '">';
 
-            if ($row['status'] == 'studying') {
-                echo '<a href="change_materialstatus.php" class="status notyet">finish<i class="fas fa-check"></i></a>';
-            } else {
+            // here!!!
+            $get_material_result = $course->get_each_material($ucID, $materialID);
 
-                echo '<a href="#" class="status">finished<i class="fas fa-check"></i></a>';
+            if ($get_material_result) {
+
+                $umID = $get_material_result['umID'];
+                $finished = $course->get_finished_material($umID);
+
+                if ($finished['status'] == 'studying') {
+                    echo '<div class="button status not-now">not yet</div>';
+
+                } elseif ($finished['status'] == 'finished' && $get_material_result['status'] == 'finished') {
+                    echo '<div class="button status done">finished<i class="fas fa-check"></i></div>';
+
+                } elseif ($finished['status'] == 'finished' && $get_material_result['status'] == 'studying') {
+                    echo '<form actuon="" method="post">
+					<input type="hidden" name="umID" value="' . $get_material_result['umID'] . '">
+					<input type="hidden" name="ucID" value="' . $get_material_result['ucID'] . '">
+					<button type="submit" name="finish" class="button status notyet">finish<i class="fas fa-check"></i></button>
+					</form>';
+
+                } elseif ($get_material_result['status'] == 'finished') {
+
+                    echo '<div class="button status done">finished<i class="fas fa-check"></i></div>';
+
+                } else {
+                    echo '<form actuon="" method="post">
+					<input type="hidden" name="umID" value="' . $get_material_result['umID'] . '">
+					<input type="hidden" name="ucID" value="' . $get_material_result['ucID'] . '">
+					<button type="submit" name="finish" class="button status notyet">finish<i class="fas fa-check"></i></button>
+					</form>';
+
+                }
             }
 
             echo '<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse' . $i . '" aria-expanded="false" aria-controls="collapse' . $i . '">';
@@ -120,11 +149,64 @@ if ($result) {
 
 }
 
-echo "</div></div></div>";
+if (isset($_POST['finish'])) {
+    // echo 'aaaa';
+    $umID = $_POST['umID'];
+    $ucID = $_POST['ucID'];
+    $material = new User;
+    $result = $material->change_material_status($umID, $ucID);
+
+}
+
+$ucID = $row['ucID'];
+$materialID = $row['materialID'];
+$material_finished = new User;
+$result = $material_finished->check_all_material_finished($ucID);
+if ($result) {
+
+    $status = $row['status'];
+    if ($status == 'syudying') {
+        echo '
+		<form action="" method="post">
+	<button type="submit" name="finish_all" class="finish btn btn-primary btn-lg btn-reg">finish the course<i class="fas fa-check"></i></button>
+	</form>
+
+	';
+    } else {
+        echo '
+    <div class="btn not-now btn-lg btn-reg">Already Finished!</div>';
+    }
+
+} else {
+    echo '
+	<div class="btn not-now btn-lg btn-reg">Finish all the material first</div>';
+}
+
+if (isset($_POST['finish_all'])) {
+
+    $ucID = $row['ucID'];
+    $course_finish = new User;
+    $result = $course_finish->change_course_status($ucID);
+    if ($result) {
+        echo '
+        <form>
+    <button type="submit" name="finish_all" class="finish btn btn-primary btn-lg btn-reg">You completed!<i class="fas fa-check"></i></button>
+    </form>
+
+    ';
+    } else {
+        echo '
+    <div class="btn not-now btn-lg btn-reg">Finish the course</div>';
+    }
+
+}
 
 ?>
-				<!-- <a href="course.php" class="btn btn-primary btn-lg btn-reg">Enroll</a>
-								<a href="course.php" class="btn border-primary btn-lg btn-reg">Enrolled</a> -->
+
+
+</div></div></div>
+
+								<!-- <a href="course.php" class="btn border-primary btn-lg btn-reg">Enrolled</a> -->
 
 		</div>
 

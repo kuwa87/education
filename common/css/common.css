@@ -156,6 +156,7 @@ table {
     border-radius: 1;
 }
 
+.finish.btn,
 input.btn,
 a.btn {
     border-radius: 0;
@@ -236,7 +237,7 @@ p.details img {
 
 /* selected course */
 
-.usermaterial {
+.usermaterial li {
     position: relative;
 }
 
@@ -248,13 +249,19 @@ p.details img {
     z-index: 100;
     background-color: #fff;
     padding: 0 10px;
-    border: 1px solid
+    border: 1px solid;
+    width: 100px;
+    text-align: center;
 }
 
 .usermaterial .status:hover {
     color: #fff;
     background-color: #2d6cdf;
 
+}
+
+.usermaterial .status.done:hover {
+    cursor: initial;
 }
 
 .usermaterial .status i {
@@ -271,9 +278,21 @@ p.details img {
     color: #fff;
 }
 
+.usermaterial .status.done {
+    color: #fff;
+    background-color: rgba(45, 108, 223, 1);
+}
+
 .usermaterial .status.done i {
     margin-left: 4px;
     display: inline-block;
     color: #fff;
-    background-color: rgba(45, 108, 223, 1);
+}
+
+.usermaterial .status.not-now,
+.usermaterial .status.not-now:hover {
+    cursor: initial;
+    color: #fff;
+    background: #d5d5d5;
+
 }

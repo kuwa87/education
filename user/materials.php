@@ -33,7 +33,7 @@ include '../classes/Material.php';
 		<ul class="usermaterial">
 <?php
 $material = new Material;
-$result = $material->get_material();
+$result = $material->change_material_status($umID, $ucID);
 
 // print_r($result);
 

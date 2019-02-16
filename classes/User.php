@@ -406,7 +406,6 @@ class User extends Config
     {
         $sql = "SELECT * FROM material
         INNER JOIN usercourse ON material.courseID = usercourse.courseID
-        INNER JOIN usermaterial ON usercourse.ucID = usermaterial.ucID
         WHERE usercourse.courseID = $courseID AND usercourse.studentID = $studentID";
         $result = $this->conn->query($sql);
 
@@ -416,6 +415,22 @@ class User extends Config
                 $rows[] = $row;
             }
             return $rows;
+
+        } else {
+            return $this->conn->error;
+        }
+
+    }
+
+    //get ucID and materialID inside roop
+    public function get_each_material($ucID, $materialID)
+    {
+        $sql = "SELECT * from usermaterial WHERE ucID = $ucID AND materialID = $materialID";
+        $result = $this->conn->query($sql);
+
+        $rows = array();
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc();
 
         } else {
             return $this->conn->error;
@@ -436,15 +451,81 @@ class User extends Config
                 $result = $this->conn->query($sql);
                 $this->redirect_js('javascript:history.go(-1)');
             } else {
-                $sql = "UPDATE usermaterial SET status='studying' WHERE umID='$umID'";
-                $result = $this->conn->query($sql);
-                $this->redirect_js('javascript:history.go(-1)');
-
+                echo $this->conn->error;
             }
 
         } else {
             return false;
         }
+    }
+
+    public function get_finished_material($umID)
+    {
+        $sql = "SELECT * FROM usermaterial WHERE umID < $umID ORDER BY umID DESC LIMIT 1";
+        $result = $this->conn->query($sql);
+        //checking previous conditon
+
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc();
+        } else {
+            echo $this->conn->error;
+        }
+
+        //DESC descending
+        //LIMIT 1 -only display 1 value
+    }
+    public function check_all_material_finished($ucID)
+    {
+        $sql = "SELECT count(*) as total FROM usermaterial WHERE ucID = $ucID";
+        $result = $this->conn->query($sql);
+        $row = $result->fetch_assoc();
+
+        $sql = "SELECT count(*) as finished FROM usermaterial WHERE ucID = $ucID AND status = 'finished'";
+        $result1 = $this->conn->query($sql);
+        $row1 = $result1->fetch_assoc();
+
+        if ($row['total'] == $row1['finished']) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public function change_course_status($ucID)
+    {
+        // $sql = "SELECT * FROM usercourse";
+        $sql = "SELECT * FROM usercourse WHERE status = 'studying' AND ucID = $ucID";
+        $result = $this->conn->query($sql);
+
+        if ($result->num_rows > 0) {
+
+            if ($row['status'] = 'studying') {
+                $sql = "UPDATE usercourse SET status='finished' WHERE ucID='$ucID'";
+                $result = $this->conn->query($sql);
+                $this->redirect_js('javascript:history.go(-1)');
+            } else {
+                echo $this->conn->error;
+            }
+
+        } else {
+            return false;
+        }
+    }
+
+    public function course_limit($studentID)
+    {
+        $sql = "SELECT count(*) as course_number FROM usercourse WHERE studentID = $studentID";
+        $result = $this->conn->query($sql);
+
+        $row = $result->fetch_assoc();
+
+        if ($row['course_number'] < '3') {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
 }
