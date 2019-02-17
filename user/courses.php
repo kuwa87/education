@@ -25,6 +25,7 @@ include 'common/head.php';
 
 <div class="container">
 <div class="row">
+
 <?php
 
 $course = new User;

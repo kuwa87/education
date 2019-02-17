@@ -316,6 +316,9 @@ class User extends Config
         $result = $this->conn->query($sql);
 
         if ($result) {
+            $sql = "DELETE FROM usermaterial WHERE ucID=$ucID";
+            $result = $this->conn->query($sql);
+
             $this->redirect_js('javascript:history.go(-1)');
 
             // echo "<script>window.location.replace('courses.php')</script>";
@@ -459,9 +462,9 @@ class User extends Config
         }
     }
 
-    public function get_finished_material($umID)
+    public function get_finished_material($umID, $ucID)
     {
-        $sql = "SELECT * FROM usermaterial WHERE umID < $umID ORDER BY umID DESC LIMIT 1";
+        $sql = "SELECT * FROM usermaterial WHERE ucID = $ucID AND umID < $umID ORDER BY umID DESC LIMIT 1";
         $result = $this->conn->query($sql);
         //checking previous conditon
 
@@ -515,12 +518,12 @@ class User extends Config
 
     public function course_limit($studentID)
     {
-        $sql = "SELECT count(*) as course_number FROM usercourse WHERE studentID = $studentID";
+        $sql = "SELECT count(*) as course_number FROM usercourse WHERE studentID = $studentID AND status = 'studying'";
         $result = $this->conn->query($sql);
 
         $row = $result->fetch_assoc();
 
-        if ($row['course_number'] < '3') {
+        if ($row['course_number'] < '2') {
             return true;
         } else {
             return false;
@@ -528,4 +531,39 @@ class User extends Config
 
     }
 
+    public function count_course($studentID)
+    {
+        $sql = "SELECT count(*) as course_number FROM usercourse WHERE studentID = $studentID AND status = 'studying'";
+        $result = $this->conn->query($sql);
+
+        $row = $result->fetch_assoc();
+
+        if ($row) {
+
+            if ($row['course_number'] == 1) {
+                echo "You are studying " . $row['course_number'] . " course<br>";
+            } else {
+                echo "You are studying " . $row['course_number'] . " courses<br>";
+            }
+
+        }
+
+    }
+    public function count_finished_course($studentID)
+    {
+        $sql = "SELECT count(*) as course_finished_number FROM usercourse WHERE studentID = $studentID AND status = 'finished'";
+        $result = $this->conn->query($sql);
+
+        $row = $result->fetch_assoc();
+
+        if ($row) {
+            if ($row['course_finished_number'] == 1) {
+                echo "You finished " . $row['course_finished_number'] . " course<br>";
+            } else {
+                echo "You finished " . $row['course_finished_number'] . " courses<br>";
+
+            }
+
+        }
+    }
 }

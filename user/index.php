@@ -24,6 +24,17 @@ include '../classes/Course.php';
 	</aside>
 
 <div class="container">
+	<?php
+$studentID = $_SESSION['studentID'];
+$count = $user->count_course($studentID);
+if ($count) {
+    $row;
+}
+$count_finish = $user->count_finished_course($studentID);
+if ($count_finish) {
+    $row;
+}
+?>
 <div class="row">
 <?php
 
@@ -49,12 +60,19 @@ if ($result) {
         $result = $user->get_course_not_enrolled($studentID, $courseID);
 
         if ($result) {
-            echo "<a href='course_enroll.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>Enroll</a>";
+            $studentID = $_SESSION['studentID'];
+            $result_limit = $user->course_limit($studentID);
+
+            if ($result_limit) {
+                echo "<a href='course_enroll.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>Enroll</a>";
+            } else {
+                echo "<div class='btn border-primary btn-lg btn-reg'>You can enroll <br>only two courses at once</div>";
+            }
 
         } else {
-            $c = $user->enrolled_course_index($courseID);
+            $unenroll = $user->enrolled_course_index($courseID);
             $courseID = $row['courseID'];
-            $ucID = $c['ucID'];
+            $ucID = $unenroll['ucID'];
             // print_r($c);
             echo "<a href='course_unenroll.php?ucID=$ucID' class='btn border-primary btn-lg btn-reg'>Unenroll</a>";
 
@@ -63,6 +81,12 @@ if ($result) {
         echo "</div></div></div>";
 
     }
+    $studentID = $_SESSION['studentID'];
+    $count = $user->count_course($studentID);
+    if ($count) {
+        $row;
+    }
+
 }
 ?>
 </div>
