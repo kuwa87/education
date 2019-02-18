@@ -29,7 +29,7 @@ include 'common/head.php';
 <?php
 
 $course = new User;
-$result = $course->enrolled_course($courseID);
+$result = $course->enrolled_course();
 
 // print_r($result);
 
@@ -40,13 +40,15 @@ if ($result) {
 
         echo "<div class='col-sm-4 col-md-4'>";
         echo "<div class='fh5co-blog animate-box'>";
-        echo "<a href='selectedcourse.php?courseID=$courseID' class='blog-img-holder' style='background-image: url(" . $row['coursePicture'] . ");'></a>";
+        echo "<a href='selectedcourse.php?courseID=$courseID' class='blog-img-holder' style='background-image: url(../" . $row['coursePicture'] . ");'></a>";
         // echo "<a href='article.php' class='blog-img-holder'></a>";
         echo "<div class='blog-text'>";
         echo "<h3><a href='article.php'>" . $row['courseName'] . "</a></h3>";
         echo "<span class='posted_on'>Price: " . $row['coursePrice'] . " PHP</span>";
         echo "<span class='comment'><a href=''>21<i class='icon-speech-bubble'></i></a></span>";
         echo "<p>" . $row['courseDetails'] . "</p>";
+        echo "<a href='selectedcourse.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>View course</a>";
+
         echo "<a href='course_unenroll.php?ucID=$ucID' class='btn border-primary btn-lg btn-reg'>Unenroll</a></div></div></div>";
 
     }

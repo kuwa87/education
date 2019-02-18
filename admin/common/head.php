@@ -2,7 +2,7 @@
 session_start();
 include_once '../classes/User.php';
 $user = new User;
-$user->login_required();
+$user->login_required_admin();
 ?>
  <!DOCTYPE HTML>
 <html><head>
@@ -64,9 +64,6 @@ $user->login_required();
 
 	<!-- Theme style  -->
 	<link rel="stylesheet" href="../common/css/style.css">
-	<link rel="stylesheet" href="../common/css/common.css">
-
-	<!-- Theme style  -->
 	<link rel="stylesheet" href="../common/css/common.css">
 
 	<!-- Modernizr JS -->

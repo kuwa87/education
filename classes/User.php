@@ -201,6 +201,28 @@ class User extends Config
     }
 
     // login_required
+    public function login_required_admin()
+    {
+        if (!isset($_SESSION['loginID'])) {
+            $this->redirect_js('../login.php');
+
+        } else {
+            $loginID = $_SESSION['loginID'];
+            $sql = "SELECT * FROM login WHERE loginID = '$loginID'";
+            $result = $this->conn->query($sql);
+            if ($result->num_rows > 0) {
+
+                $row = $result->fetch_assoc();
+
+                if ($row['status'] == 'u') {
+                    $this->redirect_js('javascript:history.go(-1)');
+                }
+            }
+
+        }
+    }
+
+    // login_required
     public function login_required()
     {
         // session_start();
@@ -269,7 +291,7 @@ class User extends Config
             $resultm = $this->conn->query($sqlm);
             while ($row = $resultm->fetch_assoc()) {
                 $materialID = $row['materialID'];
-                $sql = "INSERT INTO usermaterial(ucID,materialID,status) VALUES ('$ucID','$materialID','studying')";
+                $sql = "INSERT INTO usermaterial(ucID,materialID,mt_status) VALUES ('$ucID','$materialID','studying')";
                 $result = $this->conn->query($sql);
 
             }
@@ -285,7 +307,7 @@ class User extends Config
     }
 
     //enrolled_corse
-    public function enrolled_course($courseID)
+    public function enrolled_course()
     {
         //query
         $loginID = $_SESSION['loginID'];
@@ -304,7 +326,8 @@ class User extends Config
             return $rows;
 
         } else {
-            return $this->conn->error;
+            // return $this->conn->error;
+
         }
 
     }
@@ -365,6 +388,24 @@ class User extends Config
 
     }
 
+    public function get_courses_guest()
+    {
+        $sql = "SELECT * FROM course";
+        $result = $this->conn->query($sql);
+        //initialize an array
+        $rows = array();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
+            return $rows;
+
+        } else {
+            return $this->conn->error;
+        }
+
+    }
+
     //index
     public function enrolled_course_index($courseID)
     {
@@ -382,7 +423,7 @@ class User extends Config
             return $result->fetch_assoc();
 
         } else {
-            return $this->conn->error;
+            // return $this->conn->error;
         }
 
     }
@@ -444,13 +485,13 @@ class User extends Config
     // change the status of usermaterial
     public function change_material_status($umID, $ucID)
     {
-        $sql = "SELECT * FROM usermaterial WHERE ucID = $ucID AND status = 'studying'";
+        $sql = "SELECT * FROM usermaterial WHERE ucID = $ucID AND mt_status = 'studying'";
         $result = $this->conn->query($sql);
 
         if ($result->num_rows > 0) {
 
-            if ($row['status'] = 'studying') {
-                $sql = "UPDATE usermaterial SET status='finished' WHERE umID='$umID'";
+            if ($row['mt_status'] = 'studying') {
+                $sql = "UPDATE usermaterial SET mt_status='finished' WHERE umID='$umID'";
                 $result = $this->conn->query($sql);
                 $this->redirect_js('javascript:history.go(-1)');
             } else {
@@ -483,7 +524,7 @@ class User extends Config
         $result = $this->conn->query($sql);
         $row = $result->fetch_assoc();
 
-        $sql = "SELECT count(*) as finished FROM usermaterial WHERE ucID = $ucID AND status = 'finished'";
+        $sql = "SELECT count(*) as finished FROM usermaterial WHERE ucID = $ucID AND mt_status = 'finished'";
         $result1 = $this->conn->query($sql);
         $row1 = $result1->fetch_assoc();
 
@@ -565,5 +606,55 @@ class User extends Config
             }
 
         }
+    }
+
+    public function count_new_material($courseID, $ucID)
+    {
+        $sql = "SELECT count(*) as all_material_number FROM material WHERE courseID = $courseID";
+        $result = $this->conn->query($sql);
+        //how many materials belong to the course
+        $row = $result->fetch_assoc();
+
+        $sql_all = "SELECT count(*) as inserted_material_number FROM usermaterial WHERE ucID = $ucID";
+        $result_all = $this->conn->query($sql_all);
+        //selectiing the current materials enrolled
+
+        $row_all = $result_all->fetch_assoc();
+
+        if ($row['all_material_number'] > $row_all['inserted_material_number']) {
+            return true;
+        } else {
+            return false;
+
+        }
+
+    }
+
+    public function update_my_course($courseID, $ucID)
+    {
+        $sql = "SELECT * FROM material WHERE courseID=$courseID AND materialID
+        NOT IN(SELECT materialID FROM usermaterial WHERE ucID=$ucID and courseID=$courseID)";
+        $result = $this->conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // $row = $result->fetch_assoc();
+            //one only
+
+            while ($row = $result->fetch_assoc()) {
+                //not only one
+                $materialID = $row['materialID'];
+                $sql = "INSERT INTO usermaterial(ucID, materialID, mt_status) VALUES ('$ucID','$materialID','studying')";
+                $result_success = $this->conn->query($sql);
+
+            }
+
+            if ($result_success) {
+                $this->redirect_js("selectedcourse.php?courseID=$courseID");
+            } else {
+                echo 'error';
+            }
+
+        }
+
     }
 }

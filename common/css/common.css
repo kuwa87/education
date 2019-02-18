@@ -28,6 +28,7 @@ footer p {
     background-image: url(images/img_bg_4.jpg);
     display: block;
     background-size: cover;
+    background-position: bottom -62px right;
 }
 
 .not-slide .flexslider .slides li:after {
@@ -166,8 +167,13 @@ a.btn {
 }
 
 .fh5co-blog .blog-img-holder {
-    background-size: 300%;
-    background-position: top -50px left -280px;
+    /* background-size: 300%;
+    background-position: top -50px left -280px; */
+    background-size: 150%;
+    /* background-position: top -50px left -20px; */
+    background-position: top 83% left 50%;
+    height: 190px;
+
 }
 
 .btn.border-primary {

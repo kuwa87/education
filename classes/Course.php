@@ -95,7 +95,7 @@ class Course extends Config
     }
 
     //insert
-    public function insert($courseName, $courseDetails, $coursePrice, $target_dir, $target_file, $tmp_name, $loginID)
+    public function insert($courseName, $courseDetails, $coursePrice, $target_dir, $target_file, $admin_file, $tmp_name, $loginID)
     {
 
         $sqlFirst = "SELECT * FROM course WHERE courseName = '$courseName'";
@@ -104,7 +104,7 @@ class Course extends Config
         if ($result->num_rows > 0) {
             echo 'course_name is already taken.';
         } else {
-            if (move_uploaded_file($tmp_name, $target_file)) {
+            if (move_uploaded_file($tmp_name, $admin_file)) {
 
                 $sql = "INSERT INTO course(courseName, courseDetails, coursePrice, coursePicture, loginID) VALUES ('$courseName', '$courseDetails', '$coursePrice', '$target_file', '$loginID' )";
                 $result = $this->conn->query($sql);

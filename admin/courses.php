@@ -57,7 +57,7 @@ if ($result) {
         echo "<td>" . $row['studentName'] . "</td>";
         // echo "<td class='profpic'><img src=../" . $row['studentPicture'] . " alt=''></td>";
         // echo "<td>" . $row['studentPicture'] . "</td>";
-        echo "<td class='profpic'><img src=../course_images/" . $row['coursePicture'] . " alt=''></td>";
+        echo "<td class='profpic'><img src=../" . $row['coursePicture'] . " alt=''></td>";
 
         echo "<td>
 <a href='editcourse.php?courseID=$courseID&action=1' class='btn btn-sm btn-success'>Edit</a> <a href='deletecourse.php?courseID=$courseID&action=3' class='btn btn-sm btn-danger text-white'>Delete</a></td>";

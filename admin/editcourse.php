@@ -50,6 +50,16 @@ if (isset($_POST['photochange'])) {
 
     $register = new Course;
     $register->insertfile($courseName, $target_dir, $target_file, $tmp_name, $courseID);
+
+    // $target_dir = "course_images/";
+    // $target_file = $target_dir . basename($_FILES['coursepicture']['name']);
+    // $admin_file = '../' . $target_dir . basename($_FILES['coursepicture']['name']);
+
+    // $tmp_name = $_FILES['coursepicture']['tmp_name'];
+
+    // $register = new Course;
+    // $register->insertfile($courseName, $target_dir, $target_file, $tmp_name, $admin_file, $courseID);
+
 }
 ?>
 			</form>

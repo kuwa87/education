@@ -24,17 +24,17 @@ include '../classes/Course.php';
 	</aside>
 
 <div class="container">
-	<?php
-$studentID = $_SESSION['studentID'];
-$count = $user->count_course($studentID);
-if ($count) {
-    $row;
-}
-$count_finish = $user->count_finished_course($studentID);
-if ($count_finish) {
-    $row;
-}
-?>
+
+<!-- // $studentID = $_SESSION['studentID'];
+// $count = $user->count_course($studentID);
+// if ($count) {
+//     $row;
+// }
+// $count_finish = $user->count_finished_course($studentID);
+// if ($count_finish) {
+//     $row;
+// } -->
+
 <div class="row">
 <?php
 
@@ -50,7 +50,7 @@ if ($result) {
 
         echo "<div class='col-sm-4 col-md-4'>";
         echo "<div class='fh5co-blog animate-box'>";
-        echo "<a href='selectedcourse.php?courseID=$courseID' class='blog-img-holder' style='background-image: url(" . $row['coursePicture'] . ");'></a>";
+        echo "<a href='selectedcourse.php?courseID=$courseID' class='blog-img-holder' style='background-image: url(../" . $row['coursePicture'] . ");'></a>";
         // echo "<a href='article.php' class='blog-img-holder'></a>";
         echo "<div class='blog-text'>";
         echo "<h3><a href='article.php'>" . $row['courseName'] . "</a></h3>";
@@ -64,9 +64,11 @@ if ($result) {
             $result_limit = $user->course_limit($studentID);
 
             if ($result_limit) {
+                echo "<a href='selectedcourse.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>View course</a>";
                 echo "<a href='course_enroll.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>Enroll</a>";
             } else {
-                echo "<div class='btn border-primary btn-lg btn-reg'>You can enroll <br>only two courses at once</div>";
+                echo "<a href='selectedcourse.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>View course</a>";
+                echo "<div class='border-primary btn-lg btn-reg'>You can enroll <br>only two courses at once</div>";
             }
 
         } else {
@@ -74,23 +76,31 @@ if ($result) {
             $courseID = $row['courseID'];
             $ucID = $unenroll['ucID'];
             // print_r($c);
+            echo "<a href='selectedcourse.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>View course</a>";
             echo "<a href='course_unenroll.php?ucID=$ucID' class='btn border-primary btn-lg btn-reg'>Unenroll</a>";
 
         }
-
         echo "</div></div></div>";
 
-    }
-    $studentID = $_SESSION['studentID'];
-    $count = $user->count_course($studentID);
-    if ($count) {
-        $row;
     }
 
 }
 ?>
 </div>
 
+
+<div>
+<?php
+$studentID = $_SESSION['studentID'];
+$count = $user->count_course($studentID);
+if ($count) {
+    $row;
+}
+
+?>
+
+
+</div>
 
         </div>
 		</div>
@@ -132,7 +142,7 @@ if ($result) {
 	<script src="../common/js/jquery.magnific-popup.min.js"></script>
 	<script src="../common/js/magnific-popup-options.js"></script>
 	<!-- Count Down -->
-	<!-- <script src="../common/js/simplyCountdown.js"></script> -->
+	<script src="../common/js/simplyCountdown.js"></script>
 	<!-- Main -->
 	<script src="../common/js/main.js"></script>
 </body>

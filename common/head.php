@@ -37,6 +37,7 @@ $users->logged_in();
 	<meta name="twitter:card" content="" />
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 	<!-- Animate.css -->
 	<link rel="stylesheet" href="common/css/animate.css">
 	<!-- Icomoon Icon Fonts-->
@@ -65,14 +66,14 @@ $users->logged_in();
 </head>
 
 <body>
-		<div class="fh5co-loader"></div>
-	<div id="page">
+
+<div id="page">
 		<nav class="fh5co-nav" role="navigation">
 			<div class="top">
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-12 text-right">
-							<p class="site">www.yourdomainname.com</p>
+							<!-- <p class="site">www.yourdomainname.com</p> -->
 							<!-- <p class="num">Call: +01 123 456 7890</p> -->
 							<ul class="fh5co-social">
 								<li><a href="#"><i class="icon-facebook2"></i></a></li>

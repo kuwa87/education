@@ -1,3 +1,9 @@
+<?php
+session_start();
+include_once 'classes/User.php';
+$user = new User;
+$user->logged_in();
+?>
 <!DOCTYPE HTML>
 <html><head>
 	<meta charset="utf-8">
@@ -83,7 +89,6 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-12 text-right">
-							<p class="site">www.yourdomainname.com</p>
 							<!-- <p class="num">Call: +01 123 456 7890</p> -->
 							<ul class="fh5co-social">
 								<li><a href="#"><i class="icon-facebook2"></i></a></li>
@@ -109,11 +114,11 @@
 								<li><a href="about.html">About</a></li>
 								<li><a href="pricing.html">Pricing</a></li> -->
 								<li class="has-dropdown">
-									<a href="index.php">Courses</a>
-									<ul class="dropdown">
+									<a href="index.php#course">Courses</a>
+									<!-- <ul class="dropdown">
 										<li><a href="#design">Web Design</a></li>
 										<li><a href="#commerce">eCommerce</a></li>
-									</ul>
+									</ul> -->
 								</li>
 								<li><a href="contact.php">Contact</a></li>
 								<li class="btn-cta"><a href="login.php"><span>Login</span></a></li>
@@ -128,7 +133,7 @@
 		<aside id="fh5co-hero">
 			<div class="flexslider">
 				<ul class="slides">
-					<li style="background-image: url(common/images/img_bg_1.jpg);">
+					<li style="background-image: url(common/images/study.jpg);">
 						<!-- <div class="overlay-gradient"></div> -->
 						<div class="container">
 							<div class="row">
@@ -142,26 +147,12 @@
 							</div>
 						</div>
 					</li>
-					<!-- <li style="background-image: url(common/images/img_bg_2.jpg);">
-						<div class="overlay-gradient"></div>
-						<div class="container">
-							<div class="row">
-								<div class="col-md-8 col-md-offset-2 text-center slider-text">
-									<div class="slider-text-inner">
-										<h1>The Great Aim of Education is not Knowledge, But Action</h1>
-										<h2>Brought to you by <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a></h2>
-										<p><a class="btn btn-primary btn-lg btn-learn" href="#">Start Learning Now!</a></p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</li> -->
 				</ul>
 			</div>
 		</aside>
 
 		<div id="fh5co-course">
-			<div class="container">
+			<div class="container" id="course">
 				<div class="row animate-box">
 					<div class="col-md-6 col-md-offset-3 text-center fh5co-heading">
 						<h2>Our Course</h2>
@@ -170,30 +161,31 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-6 animate-box">
-						<div class="course">
-							<a href="#" class="course-img" style="background-image: url(common/images/project-1.jpg);">
-							</a>
-							<div class="desc" id="design">
-								<h3><a href="#">Web Master</a></h3>
-								<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab
-									aliquam dolor eius molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-								<span><a href="#" class="btn btn-primary btn-sm btn-course">Take A Course</a></span>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6 animate-box">
-						<div class="course">
-							<a href="#commerce" class="course-img" style="background-image: url(common/images/project-4.jpg);">
-							</a>
-							<div class="desc" id="commerce">
-								<h3><a href="#">Health &amp; Psychology</a></h3>
-								<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab
-									aliquam dolor eius molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-								<span><a href="#" class="btn btn-primary btn-sm btn-course">Take A Course</a></span>
-							</div>
-						</div>
-					</div>
+<?php
+
+$guest_display = new User;
+$result = $guest_display->get_courses_guest();
+
+// print_r($result);
+
+if ($result) {
+    foreach ($result as $row) {
+        $courseID = $row['courseID'];
+
+        echo "<div class='col-sm-4 col-md-4'>";
+        echo "<div class='fh5co-blog animate-box'>";
+        echo "<a href='selectedcourse.php?courseID=$courseID' class='blog-img-holder' style='background-image: url(" . $row['coursePicture'] . ");'></a>";
+        // echo "<a href='article.php' class='blog-img-holder'></a>";
+        echo "<div class='blog-text'>";
+        echo "<h3><a href='article.php'>" . $row['courseName'] . "</a></h3>";
+        echo "<span class='posted_on'>Price: " . $row['coursePrice'] . "PHP</span>";
+        echo "<span class='comment'><a href=''>21<i class='icon-speech-bubble'></i></a></span>";
+        echo "<p>" . $row['courseDetails'] . "</p>";
+        echo "</div></div></div>";
+
+    }
+}
+?>
 				</div>
 			</div>
 		</div>

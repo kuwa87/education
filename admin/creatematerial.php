@@ -51,7 +51,7 @@ include_once '../classes/Material.php';
 					<div class="row form-group">
 						<div class="col-md-12">
 							<select id="course" name="courseID">
-            					<option value="">select course</option>
+            					<!-- <option value="">select course</option> -->
             <?php
 include_once '../classes/Course.php';
 

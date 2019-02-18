@@ -86,12 +86,14 @@ if (isset($_POST['submit'])) {
     $row = $user->echo_student($loginID);
 
     // file upload
-    $target_dir = "../course_images/";
+    $target_dir = "course_images/";
     $target_file = $target_dir . basename($_FILES['coursepicture']['name']);
+    $admin_file = '../' . $target_dir . basename($_FILES['coursepicture']['name']);
+
     $tmp_name = $_FILES['coursepicture']['tmp_name'];
 
     $register = new Course;
-    $register->insert($courseName, $courseDetails, $coursePrice, $target_dir, $target_file, $tmp_name, $loginID);
+    $register->insert($courseName, $courseDetails, $coursePrice, $target_dir, $target_file, $admin_file, $tmp_name, $loginID);
 }
 
 ?>

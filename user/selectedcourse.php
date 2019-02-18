@@ -12,7 +12,7 @@ $course = new Course;
 $courseID = $_GET['courseID'];
 $row = $course->get_course_by_courseID($courseID);
 
-echo 'url(' . $row['coursePicture'] . ')';?>
+echo 'url(../' . $row['coursePicture'] . ')';?>
 ;">
 				<div class="overlay-gradient"></div>
 				<div class="container">
@@ -43,7 +43,8 @@ echo $row['coursePrice'];
 
 <div class="container">
 	<div class="col-lg-12 col-md-12">
-		<div class="fh5co-blog animate-box">
+		<div class="animate-box">
+		<!-- <div class="fh5co-blog animate-box"> -->
 
 			<div class="blog-text">
 				<h3>
@@ -59,7 +60,7 @@ echo $row['courseDetails'];
 				</p>
 			</div>
 		</div>
-		<div>Materials</div>
+
 
 
 		<div class="accordion" id="accordionExample">
@@ -68,12 +69,21 @@ echo $row['courseDetails'];
 $courseID = $row['courseID'];
 $studentID = $_SESSION['studentID'];
 $result = $user->get_course_not_enrolled($studentID, $courseID);
+echo "<a href='index.php' class='btn btn-primary btn-lg btn-reg'>Back to the list</a>";
 
 if ($result) {
+    $studentID = $_SESSION['studentID'];
+    $result_limit = $user->course_limit($studentID);
 
-    echo "<a href='course_enroll.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>Enroll</a>";
+    if ($result_limit) {
+        echo "<a href='course_enroll.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>Enroll</a>";
+    } else {
+        echo "<div class='btn btn-primary btn-lg btn-reg notyet'>Enroll</div>";
 
+    }
 } else {
+
+    echo '<div>Materials</div>';
 
     $course = new User;
     $courseID = $_GET['courseID'];
@@ -106,20 +116,20 @@ if ($result) {
 					<button type="submit" name="finish" class="button status notyet">finish<i class="fas fa-check"></i></button>
 					</form>';
 
-                } elseif ($finished['status'] == 'studying') {
+                } elseif ($finished['mt_status'] == 'studying') {
                     echo '<div class="button status not-now">not yet</div>';
 
-                } elseif ($finished['status'] == 'finished' && $get_material_result['status'] == 'finished') {
+                } elseif ($finished['mt_status'] == 'finished' && $get_material_result['mt_status'] == 'finished') {
                     echo '<div class="button status done">finished<i class="fas fa-check"></i></div>';
 
-                } elseif ($finished['status'] == 'finished' && $get_material_result['status'] == 'studying') {
+                } elseif ($finished['mt_status'] == 'finished' && $get_material_result['mt_status'] == 'studying') {
                     echo '<form actuon="" method="post">
 					<input type="hidden" name="umID" value="' . $get_material_result['umID'] . '">
 					<input type="hidden" name="ucID" value="' . $get_material_result['ucID'] . '">
 					<button type="submit" name="finish" class="button status notyet">finish<i class="fas fa-check"></i></button>
 					</form>';
 
-                } elseif ($get_material_result['status'] == 'finished') {
+                } elseif ($get_material_result['mt_status'] == 'finished') {
 
                     echo '<div class="button status done">finished<i class="fas fa-check"></i></div>';
 
@@ -153,6 +163,7 @@ if ($result) {
     $courseID = $row['courseID'];
     $ucID = $c['ucID'];
     // print_r($c);
+    echo "<a href='index.php' class='btn btn-primary btn-lg btn-reg'>Back to the list</a>";
     echo "<a href='course_unenroll.php?ucID=$ucID' class='btn border-primary btn-lg btn-reg'>Unenroll</a>";
 
     $ucID = $row['ucID'];
@@ -162,7 +173,7 @@ if ($result) {
     if ($result) {
 
         $status = $row['status'];
-        if ($status == 'syudying') {
+        if ($status == 'studying') {
             echo '
 		<form action="" method="post">
 	<button type="submit" name="finish_all" class="finish btn btn-primary btn-lg btn-reg">finish the course<i class="fas fa-check"></i></button>
@@ -178,6 +189,16 @@ if ($result) {
         echo '
 	<div class="btn not-now btn-lg btn-reg">Finish all the material first</div>';
     }
+    $new_material = new User;
+    $result_new = $new_material->count_new_material($courseID, $ucID);
+    if ($result_new) {
+        echo '
+		<form method="post" aciton="">
+		<button type="submit" name="update">Update Course</button>
+		</form>
+		';
+    }
+
 }
 
 if (isset($_POST['finish'])) {
@@ -206,6 +227,14 @@ if (isset($_POST['finish_all'])) {
     <div class="btn not-now btn-lg btn-reg">Finish the course</div>';
     }
 
+}
+
+if (isset($_POST['update'])) {
+
+    $update = new User;
+    $result = $update->update_my_course($courseID, $ucID);
+    // echo $courseID . "<br>";
+    // echo $ucID;
 }
 
 ?>

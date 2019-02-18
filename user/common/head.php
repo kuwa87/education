@@ -128,10 +128,15 @@ echo $row['studentName'];
 $course = new User;
 $studentID = $row['studentID'];
 $result = $course->enrolled_course($studentID);
-foreach ($result as $row) {
-    $courseID = $row['courseID'];
-    $courseName = $row['courseName'];
-    echo "<li><a class='dropdown-item' href='selectedcourse.php?courseID=$courseID'>" . $row['courseName'] . "</a></li>";
+if ($result) {
+
+    foreach ($result as $row) {
+        $courseID = $row['courseID'];
+        $courseName = $row['courseName'];
+        echo "<li><a class='dropdown-item' href='selectedcourse.php?courseID=$courseID'>" . $row['courseName'] . "</a></li>";
+    }
+} else {
+    echo "no enrolled courses";
 }
 // include_once '../classes/Course.php';
 // $course = new Course;
