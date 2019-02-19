@@ -48,7 +48,7 @@ if ($result) {
     foreach ($result as $row) {
         $courseID = $row['courseID'];
 
-        echo "<div class='col-sm-4 col-md-4'>";
+        echo "<div class='col-sm-4 col-md-4 card-display'>";
         echo "<div class='fh5co-blog animate-box'>";
         echo "<a href='selectedcourse.php?courseID=$courseID' class='blog-img-holder' style='background-image: url(../" . $row['coursePicture'] . ");'></a>";
         // echo "<a href='article.php' class='blog-img-holder'></a>";
@@ -64,11 +64,11 @@ if ($result) {
             $result_limit = $user->course_limit($studentID);
 
             if ($result_limit) {
-                echo "<a href='selectedcourse.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>View course</a>";
+                echo "<a href='selectedcourse.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>View</a>";
                 echo "<a href='course_enroll.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>Enroll</a>";
             } else {
-                echo "<a href='selectedcourse.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>View course</a>";
-                echo "<div class='border-primary btn-lg btn-reg'>You can enroll <br>only two courses at once</div>";
+                echo "<a href='selectedcourse.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>View</a>";
+                echo "<div class='border-primary'>You can study<br>only two courses at once</div>";
             }
 
         } else {
@@ -76,7 +76,7 @@ if ($result) {
             $courseID = $row['courseID'];
             $ucID = $unenroll['ucID'];
             // print_r($c);
-            echo "<a href='selectedcourse.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>View course</a>";
+            echo "<a href='selectedcourse.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>View</a>";
             echo "<a href='course_unenroll.php?ucID=$ucID' class='btn border-primary btn-lg btn-reg'>Unenroll</a>";
 
         }

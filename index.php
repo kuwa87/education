@@ -137,11 +137,12 @@ $user->logged_in();
 						<!-- <div class="overlay-gradient"></div> -->
 						<div class="container">
 							<div class="row">
-								<div class="col-md-8 col-md-offset-2 text-center slider-text">
+								<div class="col-md-8 col-md-offset-2 text-center slider-text w-100">
 									<div class="slider-text-inner">
-										<h1>The Roots of Education are Bitter, But the Fruit is Sweet</h1>
+										<h1 class="text-center">You can learn ONLINE.</h1>
+										<!-- <h1>The Roots of Education are Bitter, But the Fruit is Sweet</h1> -->
 										<!-- <h2>Brought to you by <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a></h2> -->
-										<p><a class="btn btn-primary btn-lg" href="#">Start Learning Now!</a></p>
+										<p><a class="btn btn-primary btn-lg" href="register.php">Start Learning Now!</a></p>
 									</div>
 								</div>
 							</div>

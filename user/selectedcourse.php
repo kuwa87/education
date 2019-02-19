@@ -69,15 +69,16 @@ echo $row['courseDetails'];
 $courseID = $row['courseID'];
 $studentID = $_SESSION['studentID'];
 $result = $user->get_course_not_enrolled($studentID, $courseID);
-echo "<a href='index.php' class='btn btn-primary btn-lg btn-reg'>Back to the list</a>";
 
 if ($result) {
     $studentID = $_SESSION['studentID'];
     $result_limit = $user->course_limit($studentID);
 
     if ($result_limit) {
+        echo "<a href='index.php' class='btn btn-primary btn-lg btn-reg'>Back to the list</a>";
         echo "<a href='course_enroll.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>Enroll</a>";
     } else {
+        echo "<a href='index.php' class='btn btn-primary btn-lg btn-reg'>Back to the list</a>";
         echo "<div class='btn btn-primary btn-lg btn-reg notyet'>Enroll</div>";
 
     }

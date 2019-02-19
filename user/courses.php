@@ -38,7 +38,7 @@ if ($result) {
         $courseID = $row['courseID'];
         $ucID = $row['ucID'];
 
-        echo "<div class='col-sm-4 col-md-4'>";
+        echo "<div class='col-sm-4 col-md-4 card-display'>";
         echo "<div class='fh5co-blog animate-box'>";
         echo "<a href='selectedcourse.php?courseID=$courseID' class='blog-img-holder' style='background-image: url(../" . $row['coursePicture'] . ");'></a>";
         // echo "<a href='article.php' class='blog-img-holder'></a>";

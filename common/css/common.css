@@ -302,3 +302,16 @@ p.details img {
     background: #d5d5d5;
 
 }
+
+/* ボタン幅の調整 */
+
+.card-display .btn.btn-lg {
+    width: calc(50% - 4px);
+    float: left;
+    padding: 10px !important;
+}
+
+/* スライダーのテキストを中央に */
+.w-100 {
+    width: 100%;
+}
