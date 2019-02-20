@@ -503,6 +503,7 @@ class User extends Config
         }
     }
 
+    //どのmaterialが終わったか　最後の一つだけ取得
     public function get_finished_material($umID, $ucID)
     {
         $sql = "SELECT * FROM usermaterial WHERE ucID = $ucID AND umID < $umID ORDER BY umID DESC LIMIT 1";
@@ -657,4 +658,5 @@ class User extends Config
         }
 
     }
+
 }

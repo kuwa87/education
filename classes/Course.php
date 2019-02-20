@@ -155,5 +155,36 @@ class Course extends Config
     }
 
     // SELECT * FROM database WHERE filename LIKE %.jpg OR filename LIKE %.png
+    //LIKE その要素をもつものを選択する
+    //% はワイルドカードみたいなもの
 
+    //コースに申し込みした人の人数を数える
+
+    public function count_usercourse_by_courseID($courseID)
+    {
+        $sql = "SELECT count(*) as course_number_by_courseID FROM usercourse WHERE courseID = $courseID";
+        $result = $this->conn->query($sql);
+
+        $row = $result->fetch_assoc();
+
+        if ($row) {
+            echo $row['course_number_by_courseID'];
+        }
+
+    }
+
+    //コースを評価した人の人数を数える
+
+    public function count_feedback_by_courseID($courseID)
+    {
+        $sql = "SELECT count(*) as feedback_number_by_courseID FROM feedback WHERE courseID = $courseID";
+        $result = $this->conn->query($sql);
+
+        $row = $result->fetch_assoc();
+
+        if ($row) {
+            echo $row['feedback_number_by_courseID'];
+        }
+
+    }
 }

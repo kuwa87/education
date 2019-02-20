@@ -2,6 +2,7 @@
 include 'common/head.php';
 include '../classes/Material.php';
 include_once '../classes/Course.php';
+include_once '../classes/Feedback.php';
 
 ?>
 <aside class="not-slide">
@@ -31,6 +32,22 @@ echo $row['coursePrice'];
 
 ?>PHP</span>
 								</h1>
+								<p>This course is enrolled by
+<?php
+$course_count = new Course;
+$courseID = $_GET['courseID'];
+$student_num = $course_count->count_usercourse_by_courseID($courseID);
+
+?>
+								student <br>
+This course is reviewed by
+<?php
+$feedback_count = new Course;
+$courseID = $_GET['courseID'];
+$feedback_num = $feedback_count->count_feedback_by_courseID($courseID);
+
+?>
+								student</p>
 
 							</div>
 						</div>
@@ -47,11 +64,11 @@ echo $row['coursePrice'];
 		<!-- <div class="fh5co-blog animate-box"> -->
 
 			<div class="blog-text">
-				<h3>
+				<h2>
 					<?php
-echo $row['courseName'];
+// echo $row['courseName'];
 ?>
-				</h3>
+				</h2>
 				<p>
 					<?php
 echo $row['courseDetails'];
@@ -66,6 +83,7 @@ echo $row['courseDetails'];
 		<div class="accordion" id="accordionExample">
 			<ul class="usermaterial">
 				<?php
+//申し込みしてないコースを選択
 $courseID = $row['courseID'];
 $studentID = $_SESSION['studentID'];
 $result = $user->get_course_not_enrolled($studentID, $courseID);
@@ -74,10 +92,13 @@ if ($result) {
     $studentID = $_SESSION['studentID'];
     $result_limit = $user->course_limit($studentID);
 
+    //コースリミット範囲内
     if ($result_limit) {
         echo "<a href='index.php' class='btn btn-primary btn-lg btn-reg'>Back to the list</a>";
         echo "<a href='course_enroll.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>Enroll</a>";
     } else {
+
+        //コースリミット範囲外
         echo "<a href='index.php' class='btn btn-primary btn-lg btn-reg'>Back to the list</a>";
         echo "<div class='btn btn-primary btn-lg btn-reg notyet'>Enroll</div>";
 
@@ -86,6 +107,7 @@ if ($result) {
 
     echo '<div>Materials</div>';
 
+    //usercourse materialを表示
     $course = new User;
     $courseID = $_GET['courseID'];
     $result = $course->get_usercourse_material($courseID, $studentID);
@@ -101,7 +123,7 @@ if ($result) {
             echo '<li class="usermaterial-card card">
 	<div class="card-header" id="heading' . $i . '">';
 
-            // here!!!
+            // materialを個別に取得
             $get_material_result = $course->get_each_material($ucID, $materialID);
 
             if ($get_material_result) {
@@ -110,6 +132,7 @@ if ($result) {
                 $umID = $get_material_result['umID'];
                 $finished = $course->get_finished_material($umID, $ucID);
 
+                //form
                 if (false) {
                     echo '<form actuon="" method="post">
 					<input type="hidden" name="umID" value="' . $get_material_result['umID'] . '">
@@ -117,6 +140,7 @@ if ($result) {
 					<button type="submit" name="finish" class="button status notyet">finish<i class="fas fa-check"></i></button>
 					</form>';
 
+                    //status が studyingかどうかをチェック
                 } elseif ($finished['mt_status'] == 'studying') {
                     echo '<div class="button status not-now">not yet</div>';
 
@@ -164,16 +188,17 @@ if ($result) {
     $courseID = $row['courseID'];
     $ucID = $c['ucID'];
     // print_r($c);
+
+    //unenrollする
     echo "<a href='index.php' class='btn btn-primary btn-lg btn-reg'>Back to the list</a>";
     echo "<a href='course_unenroll.php?ucID=$ucID' class='btn border-primary btn-lg btn-reg'>Unenroll</a>";
 
-    $ucID = $row['ucID'];
-    $materialID = $row['materialID'];
+    // $materialID = $c['materialID'];
     $material_finished = new User;
     $result = $material_finished->check_all_material_finished($ucID);
     if ($result) {
 
-        $status = $row['status'];
+        $status = $result['status'];
         if ($status == 'studying') {
             echo '
 		<form action="" method="post">
@@ -241,7 +266,118 @@ if (isset($_POST['update'])) {
 ?>
 
 
-</div></div></div>
+<!-- </div> -->
+</div>
+
+<div class="col-lg-12 col-md-12">
+	<h2>Reviews</h2>
+
+	<?php
+
+//reviewを書き終わっているかを確認
+$check_feedback = new Feedback;
+$result_check = $check_feedback->check_feedback($studentID, $courseID);
+if ($result_check) {
+    echo 'Thank you for your feedback';
+
+} else {
+    //reviewを書く
+    echo '	<h3>Write a review</h3>
+          <form action="" method="post" enctype="multipart/form-data">
+					<div class="row form-group">
+						<div class="col-md-12">
+						<label for="birthdate">Rating:</label>
+							<select id="course" name="rating">
+								<option value="5">5</option>
+								<option value="4">4</option>
+								<option value="3">3</option>
+								<option value="2">2</option>
+								<option value="1">1</option>
+           					</select>
+						</div>
+					</div>
+
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label for="birthdate">Message</label>
+							<input type="text" name="message" class="form-control" placeholder="Your message here">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<input type="submit" name="review" value="Submit" class="btn btn-primary">
+					</div>
+				</form>
+
+
+
+	';
+}
+//投稿済みのreviewをみる
+echo '
+	<h3>Check Reviews</h3>
+';
+$courseID = $_GET['courseID'];
+$get_feedback = new Feedback;
+$result_feedback = $get_feedback->get_feedback($courseID);
+if ($result_feedback) {
+    // print_r($result_feedback);
+    foreach ($result_feedback as $row) {
+        echo '
+
+		<div class="card review-box" class="w-100 border-primary">
+		  <h4><span class="studentpic"><img src="../' . $row['studentPicture'] . '" class="studentpic"></span>'
+            . $row['studentName'] . '</h4>
+		<span class="time">' . $row['dateAdded'] . '</span>
+  <div class="card-body">
+  <span>';
+        if ($row['rating'] == 5) {
+            echo '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
+        } elseif ($row['rating'] == 4) {
+            echo '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>';
+        } elseif ($row['rating'] == 3) {
+            echo '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+        } elseif ($row['rating'] == 2) {
+            echo '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+        } elseif ($row['rating'] == 1) {
+            echo '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+        } else {
+            echo '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+        }
+
+        echo '
+   </span>
+    <p class="card-text">' . $row['message'] . '</p>
+  </div>
+</div>
+
+
+
+		';
+    }
+
+}
+
+?>
+
+				<?php
+if (isset($_POST['review'])) {
+    $rating = $_POST['rating'];
+    $message = $_POST['message'];
+    $studentID = $_SESSION['studentID'];
+    $courseID = $_GET['courseID'];
+
+    $feedback = new Feedback;
+    $feedback->insert_feedback($rating, $message, $studentID, $courseID);
+}
+
+?>
+
+        </form>
+</div>
+</div>
+
+</div>
 
 								<!-- <a href="course.php" class="btn border-primary btn-lg btn-reg">Enrolled</a> -->
 
