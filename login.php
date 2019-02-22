@@ -44,7 +44,7 @@ include_once 'classes/User.php';
 							<div class="row form-group">
 								<div class="col-md-12">
 									<!-- <label for="password">Password</label> -->
-									<input type="text" name="password" class="form-control" placeholder="Password">
+									<input type="password" name="password" class="form-control" placeholder="Password">
 								</div>
 							</div>
 

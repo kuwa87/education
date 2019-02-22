@@ -29,27 +29,31 @@ $row = $course->get_course_by_courseID($courseID);
 
 <div class="container">
  <div class="table-wrap pt-5 pb-5">
-	            <form action="" method="post" class="p-5" enctype="multipart/form-data">
 
+
+			<form method="post" class="p-5" enctype="multipart/form-data">
 	    	<div class="form-group editpic">
-				<img class="" src="<?php echo $row['coursePicture']; ?>" alt=""><br>
+				<img class="" src="../<?php echo $row['coursePicture']; ?>" alt=""><br>
 				        <div class="form-group">
-                <label>Course Picture</label>
+				<label>Course Picture</label>
                 <input type="file" name="coursepicture">
         </div>
 				<input type="submit" value="Save Photo" name="photochange" class="btn btn-primary">
 			</div>
+			</form>
 			<?php
 if (isset($_POST['photochange'])) {
     $courseName = $row['courseName'];
 
     // file upload
-    $target_dir = "../course_images/";
-    $target_file = $target_dir . basename($_FILES['coursepicture']['name']);
+    $target_dir = "course_images/";
     $tmp_name = $_FILES['coursepicture']['tmp_name'];
 
+    $target_file = $target_dir . basename($_FILES['coursepicture']['name']);
+    $admin_file = '../' . $target_dir . basename($_FILES['coursepicture']['name']);
+
     $register = new Course;
-    $register->insertfile($courseName, $target_dir, $target_file, $tmp_name, $courseID);
+    $register->insertfile($courseName, $target_dir, $target_file, $tmp_name, $admin_file, $courseID);
 
     // $target_dir = "course_images/";
     // $target_file = $target_dir . basename($_FILES['coursepicture']['name']);
@@ -62,7 +66,6 @@ if (isset($_POST['photochange'])) {
 
 }
 ?>
-			</form>
            <form action="" method="post" class="p-5">
             <div class="form-group">
             <label for="name">name</label>

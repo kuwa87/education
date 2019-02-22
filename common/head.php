@@ -99,11 +99,11 @@ $users->logged_in();
 								<li><a href="about.html">About</a></li>
 								<li><a href="pricing.html">Pricing</a></li> -->
 								<li class="has-dropdown">
-									<a href="index.php">Courses</a>
-									<ul class="dropdown">
+									<a href="index.php#course">Courses</a>
+									<!-- <ul class="dropdown">
 										<li><a href="#design">Web Design</a></li>
 										<li><a href="#commerce">eCommerce</a></li>
-									</ul>
+									</ul> -->
 								</li>
 								<li><a href="contact.php">Contact</a></li>
 								<li class="btn-cta"><a href="login.php"><span>Login</span></a></li>

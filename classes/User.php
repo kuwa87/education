@@ -8,8 +8,6 @@ class User extends Config
 
     public function login($email, $password)
     {
-        // $sql = "SELECT * FROM student WHERE loginID = '$loginID' AND password = '$password'";
-        // $sql = "SELECT * FROM login WHERE emailAdress = '$email' AND password = '$password'";
         $sql = "SELECT * FROM student INNER JOIN login ON login.loginID = student.loginID WHERE login.emailAdress = '$email' AND login.password = '$password'";
         $result = $this->conn->query($sql);
 
@@ -583,9 +581,9 @@ class User extends Config
         if ($row) {
 
             if ($row['course_number'] == 1) {
-                echo "You are studying " . $row['course_number'] . " course<br>";
+                echo "You are studying " . $row['course_number'] . " course. ";
             } else {
-                echo "You are studying " . $row['course_number'] . " courses<br>";
+                echo "You are studying " . $row['course_number'] . " courses. ";
             }
 
         }
@@ -600,9 +598,9 @@ class User extends Config
 
         if ($row) {
             if ($row['course_finished_number'] == 1) {
-                echo "You finished " . $row['course_finished_number'] . " course<br>";
+                echo "You finished " . $row['course_finished_number'] . " course. ";
             } else {
-                echo "You finished " . $row['course_finished_number'] . " courses<br>";
+                echo "You finished " . $row['course_finished_number'] . " courses. ";
 
             }
 

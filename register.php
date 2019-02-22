@@ -59,14 +59,14 @@ include_once 'classes/User.php';
 					<div class="row form-group">
 						<div class="col-md-12">
 							<!-- <label for="password">Password</label> -->
-							<input type="text" name="password" class="form-control" placeholder="Password">
+							<input type="password" name="password" class="form-control" placeholder="Password">
 						</div>
 					</div>
 
 					<div class="row form-group">
 						<div class="col-md-12">
 							<!-- <label for="conpass">Confirm Password</label> -->
-							<input type="text" name="conpass" class="form-control" placeholder="Confirm password">
+							<input type="password" name="conpass" class="form-control" placeholder="Confirm password">
 						</div>
 					</div>
 

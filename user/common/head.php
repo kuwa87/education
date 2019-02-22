@@ -120,7 +120,7 @@ echo $row['studentName'];
 								<li><a href="courses.php">My Courses</a></li>
 								<!-- <li><a href="materials.php">Materials</a></li> -->
 								<li class="has-dropdown">
-									<a href="">Select Materials</a>
+									<span class="not-a">Select Materials</span>
 									<ul class="dropdown">
 										<!-- <li><a href="#design">Web Design</a></li>
 										<li><a href="#commerce">eCommerce</a></li> -->

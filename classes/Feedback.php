@@ -3,8 +3,6 @@ require_once "Config.php";
 class Feedback extends Config
 {
 
-    //ratigng, reviews
-
     //insert feedback
     public function insert_feedback($rating, $message, $studentID, $courseID)
     {
@@ -52,6 +50,29 @@ class Feedback extends Config
 
         } else {
             echo $this->conn->error;
+        }
+    }
+    public function avarage_feedback($courseID)
+    {
+
+        $sql = "SELECT * FROM feedback WHERE courseID = '$courseID'";
+        $result = $this->conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $total = 0;
+            $rows = array();
+            while ($row = $result->fetch_assoc()) {
+                $feedback = $row['rating'];
+                $total += $feedback;
+                $rows[] = $row;
+            }
+
+            $totalReview = count($rows);
+            $avg = $total / $totalReview;
+            return $avg;
+
+        } else {
+            return false;
         }
     }
 

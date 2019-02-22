@@ -5,7 +5,7 @@ include_once '../classes/Course.php';
 include_once '../classes/Feedback.php';
 
 ?>
-<aside class="not-slide">
+<aside class="not-slide selectedcourse">
 	<div class="flexslider">
 		<ul class="slides">
 			<li style="background-image: <?php
@@ -31,24 +31,51 @@ echo $row['courseName'];
 echo $row['coursePrice'];
 
 ?>PHP</span>
-								</h1>
-								<p>This course is enrolled by
+<span class="score_etc">
+
+
 <?php
+$feedback_avg = new Feedback;
+// $courseID = $_GET['courseID'];
+$feedback_avg = $feedback_avg->avarage_feedback($courseID);
+
+if ($feedback_avg) {
+
+    echo "Avarage score" . $feedback_avg . " ";
+
+    if ($feedback_avg == 5) {
+        echo '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
+    } elseif ($feedback_avg > 4) {
+        echo '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>';
+    } elseif ($feedback_avg > 3) {
+        echo '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+    } elseif ($feedback_avg > 2) {
+        echo '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+    } elseif ($$feedback_avg > 1) {
+        echo '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+    } else {
+        echo '';
+    }
+    echo '( ';
+    $feedback_count = new Course;
+// $courseID = $_GET['courseID'];
+    $feedback_num = $feedback_count->count_feedback_by_courseID($courseID);
+
+    echo ' ratings ) ';
+
+} else {
+    echo "This course has not been rated yet.  ";
+}
+
 $course_count = new Course;
 $courseID = $_GET['courseID'];
 $student_num = $course_count->count_usercourse_by_courseID($courseID);
 
 ?>
-								student <br>
-This course is reviewed by
-<?php
-$feedback_count = new Course;
-$courseID = $_GET['courseID'];
-$feedback_num = $feedback_count->count_feedback_by_courseID($courseID);
+ students enrolled
 
-?>
-								student</p>
-
+</span>
+								</h1>
 							</div>
 						</div>
 					</div>
@@ -59,8 +86,11 @@ $feedback_num = $feedback_count->count_feedback_by_courseID($courseID);
 </aside>
 
 <div class="container">
+
+
 	<div class="col-lg-12 col-md-12">
-		<div class="animate-box">
+        <div class="animate-box blog
+        ">
 		<!-- <div class="fh5co-blog animate-box"> -->
 
 			<div class="blog-text">
@@ -69,7 +99,7 @@ $feedback_num = $feedback_count->count_feedback_by_courseID($courseID);
 // echo $row['courseName'];
 ?>
 				</h2>
-				<p>
+				<p class="intro-text">
 					<?php
 echo $row['courseDetails'];
 ?>
@@ -100,12 +130,12 @@ if ($result) {
 
         //コースリミット範囲外
         echo "<a href='index.php' class='btn btn-primary btn-lg btn-reg'>Back to the list</a>";
-        echo "<div class='btn btn-primary btn-lg btn-reg notyet'>Enroll</div>";
+        echo "<div class='btn btn-white border-primary btn-lg btn-reg notyet'>You cannot enroll now</div>";
 
     }
 } else {
 
-    echo '<div>Materials</div>';
+    echo '<h2>Materials</h2>';
 
     //usercourse materialを表示
     $course = new User;
@@ -176,12 +206,27 @@ if ($result) {
     <div id="collapse' . $i . '" class="collapse" aria-labelledby="heading' . $i . '" data-parent="#accordionExample">
 	  <div class="card-body">';
             echo "<img src=../material_images/" . $row['materialImage'] . " alt=''><br><p>" . $row['materialDetails'];
-            echo '</p><a href="material_detail.php?ucID=$ucID" class="btn btn-primary btn-lg btn-reg">View</a>';
+            echo "</p><a href='../material_contents/" . $row['materialContent'] . " ' target='_blank' class='btn btn-primary btn-lg btn-reg'>View</a>";
+
+            echo '</p><a href="../material_contents/" ' . $row['materialContent'] . ' "  target="_blank" class="btn btn-primary btn-lg btn-reg">View</a>';
             echo '</div></div></li>';
             $i++;
 
         }
         echo '</ul></div>';
+    }
+
+    //update course button
+    $new_material = new User;
+    $result_new = $new_material->count_new_material($courseID, $ucID);
+    if ($result_new) {
+        echo '
+        <div class="update-course">
+		<form method="post" aciton="">
+		<button type="submit" name="update">Update Course</button>
+        </form>
+        </div>
+		';
     }
 
     $c = $user->enrolled_course_index($courseID);
@@ -214,15 +259,6 @@ if ($result) {
     } else {
         echo '
 	<div class="btn not-now btn-lg btn-reg">Finish all the material first</div>';
-    }
-    $new_material = new User;
-    $result_new = $new_material->count_new_material($courseID, $ucID);
-    if ($result_new) {
-        echo '
-		<form method="post" aciton="">
-		<button type="submit" name="update">Update Course</button>
-		</form>
-		';
     }
 
 }
@@ -269,7 +305,7 @@ if (isset($_POST['update'])) {
 <!-- </div> -->
 </div>
 
-<div class="col-lg-12 col-md-12">
+<div class="col-lg-12 col-md-12" id="review-box">
 	<h2>Reviews</h2>
 
 	<?php
@@ -278,7 +314,7 @@ if (isset($_POST['update'])) {
 $check_feedback = new Feedback;
 $result_check = $check_feedback->check_feedback($studentID, $courseID);
 if ($result_check) {
-    echo 'Thank you for your feedback';
+    echo '<p>Thank you for your feedback!</p>';
 
 } else {
     //reviewを書く
@@ -356,6 +392,8 @@ if ($result_feedback) {
 		';
     }
 
+} else {
+    echo 'No reviews yet.';
 }
 
 ?>

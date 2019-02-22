@@ -24,6 +24,21 @@ include 'common/head.php';
 	</aside>
 
 <div class="container">
+		<div class="information-box">
+		<p><i class="fas fa-info-circle"></i> You can stdy two material at once.</p>
+<?php
+$studentID = $_SESSION['studentID'];
+echo '<p class="count_studycourse">';
+$count = $user->count_course($studentID);
+//count the nuber of course which is STUDYING
+
+$count_finish = $user->count_finished_course($studentID);
+//count the nuber of course which is FINISHED
+
+echo '</p>';
+
+?>
+</div>
 <div class="row">
 
 <?php
@@ -46,7 +61,7 @@ if ($result) {
         echo "<h3><a href='article.php'>" . $row['courseName'] . "</a></h3>";
         echo "<span class='posted_on'>Price: " . $row['coursePrice'] . " PHP</span>";
         echo "<span class='comment'><a href=''>21<i class='icon-speech-bubble'></i></a></span>";
-        echo "<p>" . $row['courseDetails'] . "</p>";
+        echo "<p class='course-details'>" . $row['courseDetails'] . "</p>";
         echo "<a href='selectedcourse.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>View course</a>";
 
         echo "<a href='course_unenroll.php?ucID=$ucID' class='btn border-primary btn-lg btn-reg'>Unenroll</a></div></div></div>";

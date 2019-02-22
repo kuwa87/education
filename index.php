@@ -180,7 +180,16 @@ if ($result) {
         echo "<div class='blog-text'>";
         echo "<h3><a href='article.php'>" . $row['courseName'] . "</a></h3>";
         echo "<span class='posted_on'>Price: " . $row['coursePrice'] . "PHP</span>";
-        echo "<span class='comment'><a href=''>21<i class='icon-speech-bubble'></i></a></span>";
+
+        echo "<span class='comment'><a href='selectedcourse.php?courseID=$courseID#review-box'>";
+
+//feedback count
+        include_once 'classes/Course.php';
+
+        $feedback_count = new Course;
+        $feedback_num = $feedback_count->count_feedback_by_courseID($courseID);
+
+        echo "<span class='comment'><a href=''><i class='icon-speech-bubble'></i></a></span>";
         echo "<p>" . $row['courseDetails'] . "</p>";
         echo "</div></div></div>";
 

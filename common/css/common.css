@@ -21,6 +21,10 @@ footer p {
     height: 200px;
     min-height: 200px;
 }
+.selectedcourse.not-slide .flexslider .slides li:after{
+        background: rgba(000,000,000,.7);
+
+}
 
 .not-slide .flexslider .slides li {
     height: 200px;
@@ -38,7 +42,7 @@ footer p {
     left: 0;
     right: 0;
     content: '';
-    background: rgba(0, 0, 0, 0.4);
+    /* background: rgba(0, 0, 0, 0.4); */
     z-index: 1;
 }
 
@@ -47,7 +51,7 @@ footer p {
     height: 200px;
     width: 100%;
     line-height: 200px;
-    padding-top: 70px;
+    padding-top: 56px;
 }
 
 
@@ -158,6 +162,7 @@ table {
     border-radius: 1;
 }
 
+div.btn,
 .finish.btn,
 input.btn,
 a.btn {
@@ -165,6 +170,13 @@ a.btn {
     font-size: 1.4rem;
     padding: 4px 10px;
     min-width: 64px;
+}
+
+div.btn{
+    color: #828282;
+}
+div.btn:hover{
+    color: #828282;
 }
 
 .fh5co-blog .blog-img-holder {
@@ -227,7 +239,10 @@ a.btn {
     position: absolute;
     font-size: 1.6rem;
     top: -40px;
-    right: 20px;
+    right: 0;
+    background: #fff;
+    color: #000;
+    padding: 5px 10px;
 }
 
 p.details {
@@ -350,4 +365,82 @@ p.details img {
 .review-box .card-body {
     padding: 10px;
     margin-bottom: 5px;
+}
+
+/* btnがdivだった場合 */
+div.btn:hover{
+    cursor: default;
+
+}
+
+/* reviewエリアの中身 */
+
+#review-box{
+    margin: 20px 0;
+    background: #f0f0f0;
+    padding: 20px;
+
+}
+
+.update-course{
+    margin: 20px 0;
+    /* height: 30px; */
+}
+.update-course button{
+    float: right;
+}
+
+h1 span.score_etc{
+    padding: 10px;
+    width: 100%;
+    display: block;
+    font-size: 1.8rem;
+    margin: 16px 0 0;
+}
+
+/* rowの高さを固定 */
+.row-eq-height {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* ヘッダーのリンクなしへの配慮 */
+
+.fh5co-nav ul li .not-a{
+        font-size: 14px;
+    padding: 30px 15px;
+    color: rgba(0, 0, 0, 0.9);
+}
+
+/* selected course で概要を表示 */
+
+
+/* indexのコース概要の高さを一時的に調整 */
+.course-details{
+    min-height: 100px;
+    height: auto;
+
+}
+
+/* 選択中のコース数を表示 */
+
+.information-box{
+    background: #f0f0f0;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+.count_studycourse{
+    margin-bottom: 0;
+
+}
+
+.blog .blog-text {
+    position: relative;
+    background: rgba(0, 0, 0, 0.03);
+    width: 100%;
+    padding: 20px;
+    float: left;
+    margin-bottom: 20px;
 }

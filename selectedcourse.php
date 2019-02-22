@@ -1,9 +1,10 @@
 <?php
 include 'common/head.php';
 include 'classes/Course.php';
+include_once 'classes/Feedback.php';
 
 ?>
-<aside class="not-slide">
+<aside class="not-slide selectedcourse">
 	<div class="flexslider">
 		<ul class="slides">
 			<li style="background-image: <?php
@@ -29,6 +30,50 @@ echo $row['courseName'];
 echo $row['coursePrice'];
 
 ?>PHP</span>
+<span class="score_etc">
+
+
+<?php
+$feedback_avg = new Feedback;
+// $courseID = $_GET['courseID'];
+$feedback_avg = $feedback_avg->avarage_feedback($courseID);
+
+if ($feedback_avg) {
+
+    echo "Avarage score" . $feedback_avg . " ";
+
+    if ($feedback_avg == 5) {
+        echo '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
+    } elseif ($feedback_avg > 4) {
+        echo '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>';
+    } elseif ($feedback_avg > 3) {
+        echo '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+    } elseif ($feedback_avg > 2) {
+        echo '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+    } elseif ($$feedback_avg > 1) {
+        echo '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+    } else {
+        echo '';
+    }
+    echo '( ';
+    $feedback_count = new Course;
+// $courseID = $_GET['courseID'];
+    $feedback_num = $feedback_count->count_feedback_by_courseID($courseID);
+
+    echo ' ratings ) ';
+
+} else {
+    echo "This course has not been rated yet.  ";
+}
+
+$course_count = new Course;
+$courseID = $_GET['courseID'];
+$student_num = $course_count->count_usercourse_by_courseID($courseID);
+
+?>
+ students enrolled
+
+</span>
 								</h1>
 
 							</div>
@@ -54,7 +99,7 @@ echo $row['courseDetails'];
 ?></p>
 			</div>
 		</div>
-		<div>Materials</div>
+		<!-- <h2>Materials</h2> -->
 </div>
 </div>
 		</div>

@@ -129,13 +129,13 @@ class Course extends Config
         }
 
     }
-    public function insertfile($courseName, $target_dir, $target_file, $tmp_name, $courseID)
+    public function insertfile($courseName, $target_dir, $target_file, $tmp_name, $admin_file, $courseID)
     {
 
         $sqlFirst = "SELECT * FROM course WHERE courseName = '$courseName'";
         $result = $this->conn->query($sqlFirst);
-
-        if (move_uploaded_file($tmp_name, $target_file)) {
+        echo $tmp_name;
+        if ($file = move_uploaded_file($tmp_name, $admin_file)) {
 
             $sql = "UPDATE course SET coursePicture = '$target_file' WHERE courseID ='$courseID'";
             $result = $this->conn->query($sql);
@@ -150,6 +150,8 @@ class Course extends Config
                 echo 'Error in inserting record' . $this->conn->error;
             }
 
+        } else {
+            echo "error";
         }
 
     }
@@ -185,6 +187,12 @@ class Course extends Config
         if ($row) {
             echo $row['feedback_number_by_courseID'];
         }
+
+    }
+
+    public function aaaa()
+    {
+        $sql = "SELECT count(*) as feedback_number_by_courseID FROM feedback WHERE courseID = $courseID";
 
     }
 }

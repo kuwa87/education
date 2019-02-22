@@ -24,25 +24,28 @@ include '../classes/Course.php';
 	</aside>
 
 <div class="container">
+	<div class="information-box">
+		<p><i class="fas fa-info-circle"></i> You can stdy two material at once.</p>
+<?php
+$studentID = $_SESSION['studentID'];
+echo '<p class="count_studycourse">';
+$count = $user->count_course($studentID);
+//count the nuber of course which is STUDYING
 
-<!-- // $studentID = $_SESSION['studentID'];
-// $count = $user->count_course($studentID);
-// if ($count) {
-//     $row;
-// }
-// $count_finish = $user->count_finished_course($studentID);
-// if ($count_finish) {
-//     $row;
-// } -->
+$count_finish = $user->count_finished_course($studentID);
+//count the nuber of course which is FINISHED
 
-<div class="row">
+echo '</p>';
+
+?>
+</div>
+<div class="row row-eq-height">
 <?php
 
+//display course
 $studentID = $_SESSION['studentID'];
 $course = new Course;
 $result = $course->get_course();
-
-// print_r($result);
 
 if ($result) {
     foreach ($result as $row) {
@@ -51,31 +54,39 @@ if ($result) {
         echo "<div class='col-sm-4 col-md-4 card-display'>";
         echo "<div class='fh5co-blog animate-box'>";
         echo "<a href='selectedcourse.php?courseID=$courseID' class='blog-img-holder' style='background-image: url(../" . $row['coursePicture'] . ");'></a>";
-        // echo "<a href='article.php' class='blog-img-holder'></a>";
         echo "<div class='blog-text'>";
         echo "<h3><a href='article.php'>" . $row['courseName'] . "</a></h3>";
         echo "<span class='posted_on'>Price: " . $row['coursePrice'] . "PHP</span>";
-        echo "<span class='comment'><a href=''>21<i class='icon-speech-bubble'></i></a></span>";
-        echo "<p>" . $row['courseDetails'] . "</p>";
+        echo "<span class='comment'><a href='selectedcourse.php?courseID=$courseID#review-box'>";
+
+        //feedback count
+        $feedback_count = new Course;
+        $feedback_num = $feedback_count->count_feedback_by_courseID($courseID);
+
+        echo "<i class='icon-speech-bubble'></i></a></span>";
+        echo "<p class='course-details'>" . $row['courseDetails'] . "</p>";
         $result = $user->get_course_not_enrolled($studentID, $courseID);
 
+        //check if it is enrolled or not
         if ($result) {
             $studentID = $_SESSION['studentID'];
             $result_limit = $user->course_limit($studentID);
 
+            //if it is not reach the limit
             if ($result_limit) {
                 echo "<a href='selectedcourse.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>View</a>";
                 echo "<a href='course_enroll.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>Enroll</a>";
             } else {
+                //if it is already reached the limit
                 echo "<a href='selectedcourse.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>View</a>";
-                echo "<div class='border-primary'>You can study<br>only two courses at once</div>";
+                echo "<div class='btn border-primary btn-lg btn-reg'>NOT NOW</div>";
             }
 
         } else {
+            //if it is NOT enrolled
             $unenroll = $user->enrolled_course_index($courseID);
             $courseID = $row['courseID'];
             $ucID = $unenroll['ucID'];
-            // print_r($c);
             echo "<a href='selectedcourse.php?courseID=$courseID' class='btn btn-primary btn-lg btn-reg'>View</a>";
             echo "<a href='course_unenroll.php?ucID=$ucID' class='btn border-primary btn-lg btn-reg'>Unenroll</a>";
 
@@ -87,18 +98,6 @@ if ($result) {
 }
 ?>
 </div>
-
-
-<div>
-<?php
-$studentID = $_SESSION['studentID'];
-$count = $user->count_course($studentID);
-if ($count) {
-    $row;
-}
-
-?>
-
 
 </div>
 
