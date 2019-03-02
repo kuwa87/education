@@ -51,7 +51,9 @@ if ($feedback_avg) {
         echo '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
     } elseif ($feedback_avg > 2) {
         echo '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
-    } elseif ($$feedback_avg > 1) {
+    } elseif ($feedback_avg > 1) {
+        echo '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
+    } elseif ($feedback_avg = 1) {
         echo '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
     } else {
         echo '';
@@ -264,7 +266,7 @@ if ($result) {
 }
 
 if (isset($_POST['finish'])) {
-    // echo 'aaaa';
+    // change_material_status
     $umID = $_POST['umID'];
     $ucID = $_POST['ucID'];
     $material = new User;
@@ -273,7 +275,7 @@ if (isset($_POST['finish'])) {
 }
 
 if (isset($_POST['finish_all'])) {
-
+    //change_course_status
     $ucID = $row['ucID'];
     $course_finish = new User;
     $result = $course_finish->change_course_status($ucID);
@@ -295,14 +297,11 @@ if (isset($_POST['update'])) {
 
     $update = new User;
     $result = $update->update_my_course($courseID, $ucID);
-    // echo $courseID . "<br>";
-    // echo $ucID;
 }
 
 ?>
 
 
-<!-- </div> -->
 </div>
 
 <div class="col-lg-12 col-md-12" id="review-box">

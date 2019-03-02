@@ -50,7 +50,7 @@ if ($feedback_avg) {
         echo '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
     } elseif ($feedback_avg > 2) {
         echo '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
-    } elseif ($$feedback_avg > 1) {
+    } elseif ($feedback_avg > 1) {
         echo '<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
     } else {
         echo '';
